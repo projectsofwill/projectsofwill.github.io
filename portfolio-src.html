@@ -1,0 +1,605 @@
+<title>William Liu · RevOps + AI Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="William Liu builds AI systems for revenue operations. Deterministic where it matters, AI at the edges.">
+<style>
+  @font-face{font-family:'Geist';src:url(data:font/woff2;base64,{{GEIST}}) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+  @font-face{font-family:'Plex Mono';src:url(data:font/woff2;base64,{{MONO400}}) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Plex Mono';src:url(data:font/woff2;base64,{{MONO500}}) format('woff2');font-weight:500;font-style:normal;font-display:swap}
+
+  :root{
+    --grey-100:hsl(0 0% 7%);
+    --grey-90:hsl(0 0% 11%);
+    --grey-80:hsl(0 0% 16%);
+    --grey-70:hsl(0 0% 20%);
+    --grey-60:hsl(0 0% 27%);
+    --grey-50:hsl(0 0% 42%);
+    --grey-40:hsl(0 0% 60%);
+    --grey-30:hsl(0 0% 77%);
+    --grey-20:hsl(0 0% 84%);
+    --grey-10:hsl(0 0% 92%);
+    --grey-5:hsl(0 0% 97%);
+    --white:hsl(0 0% 100%);
+    --amber:hsl(38 85% 60%);
+    --ok:hsl(150 45% 52%);
+    --easing:cubic-bezier(.16,1,.3,1);
+
+    /* dark by default */
+    --bg:var(--grey-90);
+    --text:var(--grey-5);
+    --text-2:var(--grey-40);
+    --muted:var(--grey-50);
+    --border:var(--grey-70);
+    --border-soft:var(--grey-80);
+    --card:hsl(0 0% 13%);
+    --number:var(--grey-60);
+    --chip-bg:var(--grey-80);
+    --accent:var(--amber);
+  }
+  :root[data-theme="light"]{
+    --bg:var(--white);
+    --text:var(--grey-80);
+    --text-2:var(--grey-50);
+    --muted:var(--grey-40);
+    --border:var(--grey-10);
+    --border-soft:var(--grey-5);
+    --card:var(--grey-5);
+    --number:var(--grey-30);
+    --chip-bg:var(--grey-10);
+    --accent:hsl(35 90% 38%);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Geist',system-ui,sans-serif;
+    font-size:15px;line-height:1.5;letter-spacing:-.01em;
+    background:var(--bg);color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .4s var(--easing),color .4s var(--easing);
+  }
+  ::selection{background:var(--accent);color:var(--grey-90)}
+
+  .page{max-width:1280px;margin:0 auto;padding:0 32px}
+  @media(max-width:720px){.page{padding:0 16px}}
+
+  .meta{font-family:'Plex Mono',monospace;font-size:12px;line-height:1.55;letter-spacing:0;color:var(--text-2)}
+  .meta .lbl{color:var(--muted)}
+  .num{font-family:'Plex Mono',monospace;font-variant-numeric:tabular-nums;color:var(--number)}
+  a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s var(--easing),color .2s var(--easing)}
+  a:hover{color:var(--text);border-color:var(--text)}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---------- header ---------- */
+  header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+  .navlinks{display:flex;gap:22px;flex-wrap:wrap}
+  .navlinks a{font-family:'Plex Mono',monospace;font-size:12px;border-bottom:none;color:var(--text-2)}
+  .navlinks a .key{color:var(--muted)}
+  .navlinks a:hover{color:var(--text)}
+  .navlinks a.active{color:var(--text)}
+  .modebtn{font-family:'Plex Mono',monospace;font-size:12px;background:none;border:none;color:var(--text-2);cursor:pointer;transition:color .2s var(--easing)}
+  .modebtn:hover{color:var(--text)}
+  .modebtn .key,.navlinks .key{color:var(--muted)}
+
+  /* ---------- views ---------- */
+  main[hidden]{display:none}
+
+  /* ---------- thesis / home ---------- */
+  .thesis{padding:72px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px}
+  @media(max-width:900px){.thesis{grid-template-columns:1fr;gap:28px;padding:48px 0}}
+  .thesis h1{font-size:clamp(26px,3.6vw,40px);font-weight:500;line-height:1.18;letter-spacing:-.02em;text-wrap:balance;max-width:20ch}
+  .thesis h1 em{font-style:normal;color:var(--accent)}
+  .thesis .side p{color:var(--text-2);max-width:52ch}
+  .thesis .side p+p{margin-top:14px}
+  .legend{margin-top:22px;display:flex;gap:20px;flex-wrap:wrap}
+  .legend span{font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .sw{display:inline-block;width:9px;height:9px;margin-right:7px;border-radius:1px}
+  .sw.det{background:var(--text-2)}
+  .sw.ai{background:var(--accent)}
+
+  .index-head{padding:20px 0 10px}
+  .row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,2fr) 40px;gap:16px;align-items:baseline;padding:22px 0;border-top:1px solid var(--border);cursor:pointer;border-bottom:none}
+  .row:hover .rt{color:var(--accent)}
+  .row .rt{font-size:22px;font-weight:500;letter-spacing:-.02em;transition:color .2s var(--easing)}
+  .row .num{text-align:right;font-size:14px}
+  @media(max-width:720px){.row{grid-template-columns:1fr auto}.row .meta,.row .status{display:none}}
+  .chip{display:inline-block;font-family:'Plex Mono',monospace;font-size:11px;padding:3px 8px;border-radius:3px;background:var(--chip-bg);color:var(--text-2);white-space:nowrap}
+  .chip.live{color:var(--ok)}
+  .chip.build{color:var(--accent)}
+
+  /* ---------- page + section scaffolding ---------- */
+  .pagehead{padding:48px 0 8px}
+  .pagehead h1{font-size:clamp(26px,3vw,34px);font-weight:500;letter-spacing:-.02em}
+  .pagehead p{color:var(--text-2);max-width:60ch;margin-top:12px}
+  .stats{display:flex;gap:28px;flex-wrap:wrap;padding:22px 0 26px}
+  .stats .s{font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .stats .s b{display:block;font-family:'Geist',system-ui,sans-serif;font-size:19px;font-weight:500;color:var(--text);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+
+  section.block{padding:52px 0 64px;border-top:1px solid var(--border)}
+  .sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+  .sec-head h2{font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.02em}
+  .sec-sub{margin-top:6px}
+  .sec-body{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:48px;margin-top:28px}
+  .sec-body.single{grid-template-columns:1fr}
+  @media(max-width:900px){.sec-body{grid-template-columns:1fr;gap:32px}}
+  .prose p{color:var(--text-2);max-width:58ch}
+  .prose p+p{margin-top:14px}
+  .prose strong{color:var(--text);font-weight:500}
+  .prose .ai-note{color:var(--accent)}
+  .links-line{margin-top:22px;display:flex;gap:22px;flex-wrap:wrap}
+  .links-line a{font-family:'Plex Mono',monospace;font-size:12px;color:var(--text)}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  .tablewrap{overflow-x:auto}
+  td,th{padding:10px 12px 10px 0;border-top:1px solid var(--border-soft);text-align:left;vertical-align:top}
+  th{font-family:'Plex Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;border-top:none;padding-top:0}
+  td.k{font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td .ai{color:var(--accent)}
+  td{color:var(--text-2)}
+  td b{color:var(--text);font-weight:500}
+
+  /* ---------- architecture diagram ---------- */
+  .arch{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:stretch;margin-top:28px}
+  @media(max-width:900px){.arch{grid-template-columns:1fr;gap:0}}
+  .arch .node{border:1px solid var(--border);border-radius:6px;padding:16px;background:var(--card);transition:background-color .4s var(--easing),border-color .4s var(--easing)}
+  .arch .node .t{font-family:'Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+  .arch .node .d{font-family:'Plex Mono',monospace;font-size:11px;line-height:1.7;color:var(--muted);margin-top:8px}
+  .arch .link{display:flex;align-items:center;justify-content:center;padding:0 14px;font-family:'Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+  @media(max-width:900px){.arch .link{padding:10px 0;justify-content:flex-start}}
+  .arch-foot{margin-top:14px}
+
+  /* ---------- capability list ---------- */
+  .caps{margin-top:8px}
+  .cap{display:grid;grid-template-columns:170px 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--border-soft)}
+  .cap:first-child{border-top:none}
+  @media(max-width:720px){.cap{grid-template-columns:1fr;gap:4px}}
+  .cap .ck{font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .cap .cd{color:var(--text-2);font-size:14px;max-width:70ch}
+  .cap .cd b{color:var(--text);font-weight:500}
+  .cap .cd .ai{color:var(--accent)}
+
+  /* toggleable capability groups */
+  details.capgroup{border-top:1px solid var(--border)}
+  details.capgroup summary{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr) auto;gap:16px;align-items:baseline;padding:18px 0;cursor:pointer;list-style:none}
+  details.capgroup summary::-webkit-details-marker{display:none}
+  @media(max-width:720px){details.capgroup summary{grid-template-columns:1fr auto}details.capgroup summary .meta{display:none}}
+  details.capgroup summary .gt{font-size:18px;font-weight:500;letter-spacing:-.02em;transition:color .2s var(--easing)}
+  details.capgroup summary:hover .gt{color:var(--accent)}
+  details.capgroup summary .ind{font-family:'Plex Mono',monospace;font-size:14px;color:var(--muted)}
+  details.capgroup[open] summary .ind::before{content:'−'}
+  details.capgroup:not([open]) summary .ind::before{content:'+'}
+  details.capgroup .caps{padding:0 0 22px}
+  .subhead{font-family:'Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:26px 0 10px}
+
+  /* ---------- timeline ---------- */
+  .tl{margin-top:8px}
+  .tli{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:11px 0;border-top:1px solid var(--border-soft)}
+  .tli:first-child{border-top:none}
+  @media(max-width:720px){.tli{grid-template-columns:76px 1fr}}
+  .tli .d{font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .tli .w{color:var(--text-2);font-size:14px}
+  .tli .w b{color:var(--text);font-weight:500}
+
+  /* ---------- widget ---------- */
+  .widget{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:24px;transition:background-color .4s var(--easing),border-color .4s var(--easing)}
+  .widget-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}
+  .widget-head .t{font-family:'Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+  .ctl{margin-bottom:16px}
+  .ctl label{display:flex;justify-content:space-between;font-family:'Plex Mono',monospace;font-size:12px;color:var(--text-2);margin-bottom:8px}
+  .ctl label output{color:var(--text);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:2px;background:var(--border);border-radius:1px;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--text);border:none}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--text);border:none}
+  .ctl-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  select{width:100%;font-family:'Plex Mono',monospace;font-size:12px;padding:8px 10px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;cursor:pointer}
+  .toggle{display:flex;align-items:center;gap:10px;font-family:'Plex Mono',monospace;font-size:12px;color:var(--text-2);cursor:pointer;padding-top:6px;user-select:none}
+  .toggle input{accent-color:var(--text);width:14px;height:14px;cursor:pointer}
+  .verdict{margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
+  .verdict .decision{font-size:19px;font-weight:500;letter-spacing:-.01em;margin-bottom:12px}
+  .verdict .decision.ok{color:var(--ok)}
+  .verdict .decision.route{color:var(--text)}
+  .audit{font-family:'Plex Mono',monospace;font-size:12px;line-height:1.8;color:var(--text-2)}
+  .audit .r{color:var(--muted)}
+  .audit .fired{color:var(--text)}
+  .widget-foot{margin-top:18px;font-family:'Plex Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted)}
+  .widget-foot .ai{color:var(--accent)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--border);padding:28px 0 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer .meta a{border-bottom:none}
+  footer .meta a:hover{color:var(--text)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="page">
+
+<header>
+  <div class="meta"><a href="#/" style="border-bottom:none;color:var(--text)">William Liu</a><br><span class="lbl">RevOps operator · AI builder · New York</span></div>
+  <nav class="navlinks" aria-label="pages">
+    <a href="#/revops" data-nav="revops">RevOps <span class="key">( 1 )</span></a>
+    <a href="#/ai" data-nav="ai">AI Systems <span class="key">( 2 )</span></a>
+    <button class="modebtn" id="themeBtn" type="button">Light mode <span class="key">( L )</span></button>
+  </nav>
+</header>
+
+<!-- ================= HOME ================= -->
+<main id="view-home">
+  <div class="thesis">
+    <h1>Narrow, auditable, explainable beats broad, autonomous, <em>opaque</em>.</h1>
+    <div class="side">
+      <p>I build AI systems for revenue operations, and I run my own life on the same architecture. The design rule never changes: anything you need to trust is deterministic, and AI sits at the edges where it genuinely helps. It structures messy notes, writes explanations, drafts documents. It never makes the decision.</p>
+      <p>8+ years in RevOps and sales strategy across Postscript, Ramp, Multiplier, and Zendesk. SQL, Salesforce, Looker, and now the Claude API and n8n.</p>
+      <div class="legend">
+        <span><span class="sw det"></span>deterministic core</span>
+        <span><span class="sw ai"></span>AI at the edges</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="index-head meta"><span class="lbl">Index</span></div>
+  <a class="row" href="#/revops">
+    <span class="rt">RevOps Systems</span>
+    <span class="meta">Deal Desk Engine · deal-brain</span>
+    <span class="status"><span class="chip live">live demo</span></span>
+    <span class="num">01</span>
+  </a>
+  <a class="row" href="#/ai" style="border-bottom:1px solid var(--border)">
+    <span class="rt">AI Infrastructure</span>
+    <span class="meta">Claude OS + Hermes · always-on agent stack</span>
+    <span class="status"><span class="chip live">runs daily</span></span>
+    <span class="num">02</span>
+  </a>
+</main>
+
+<!-- ================= REVOPS ================= -->
+<main id="view-revops" hidden>
+  <div class="pagehead">
+    <h1>RevOps Systems</h1>
+    <p>Two builds, one message: the decision layer is deterministic SQL and arithmetic anyone can audit; the model earns its keep on the messy, language-heavy edges. Both run on provably synthetic data.</p>
+  </div>
+
+  <section class="block" id="deal-desk" style="border-top:none">
+    <div class="sec-head"><h2>Deal Desk Engine</h2><span class="num">01</span></div>
+    <div class="meta sec-sub"><span class="chip live">live</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>I built a deal desk tool that takes a deal, scores it on margin and discount discipline, and either auto-approves it, routes it to the right approver, or rejects it. The decisions are deterministic, so you can trust and audit them. <span class="ai-note">AI structures messy deal notes, writes the plain-English explanation, and drafts the term sheet.</span> It never makes the decision.</p>
+        <p>The sharpest beat: a deal at <b>78% margin still routes</b>, because one line was discounted 35% past a per-line floor. Whether a deal makes money and whether a rep is holding the line on price are two different questions. The tool checks both, separately.</p>
+        <p>Deals route by <b>reason</b>, not one yes-or-no: Net-90 terms go to Finance, a termination-for-convenience clause goes to Legal. Every decision shows its work (inputs, math, rule fired) and every threshold is config, not code, so RevOps edits a number when policy changes and the logic never moves. The decision engine calls no model, so the expensive 80% is free; three AI edges cost pennies per deal.</p>
+        <p class="meta" style="margin-top:18px"><span class="lbl">Built as an interview case study. Runs entirely on synthetic pricing data.</span></p>
+        <div class="links-line">
+          <a href="https://projectsofwill.github.io/sardine-cpq-demo/" target="_blank" rel="noopener">Live demo ↗</a>
+        </div>
+      </div>
+      <div class="widget" id="router">
+        <div class="widget-head"><span class="t">Route a deal</span><span class="meta lbl">try it</span></div>
+        <div class="ctl">
+          <label>blended margin <output id="marginOut">78%</output></label>
+          <input type="range" id="margin" min="20" max="95" value="78" aria-label="blended margin percent">
+        </div>
+        <div class="ctl">
+          <label>worst per-line discount <output id="discOut">35%</output></label>
+          <input type="range" id="disc" min="0" max="40" value="35" aria-label="worst per-line discount percent">
+        </div>
+        <div class="ctl-row">
+          <div class="ctl">
+            <label for="terms">payment terms</label>
+            <select id="terms">
+              <option value="30">Net 30</option>
+              <option value="60">Net 60</option>
+              <option value="90">Net 90</option>
+            </select>
+          </div>
+          <div class="ctl">
+            <label>non-standard clause</label>
+            <label class="toggle"><input type="checkbox" id="clause"> termination for convenience</label>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="decision" id="decision"></div>
+          <div class="audit" id="audit"></div>
+        </div>
+        <div class="widget-foot">No model call. Arithmetic and rules. <span class="ai">In the real tool, AI drafts the explanation at the edges.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="deal-brain">
+    <div class="sec-head"><h2>deal-brain</h2><span class="num">02</span></div>
+    <div class="meta sec-sub"><span class="chip build">in build · architecture locked</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>RevOps teams lose deals twice: once when the deal dies, again when the reason dies with it. Closed-lost dropdowns say "price" while the call transcripts say "no champion." The answer to "what's really happening on this deal?" is spread across CRM fields, field history, transcripts, emails, and Slack. <b>8 calls, 1 question, 0 shared context.</b></p>
+        <p>deal-brain does the plumbing once: everything syncs into one pre-joined Postgres store with a SFDC-shaped schema (including field history, the thing forecast analytics actually runs on), one <b>get_deal_context(deal)</b> interface, and three agents on top. A 2 to 3 hour weekly ritual becomes a 5-minute Slack brief.</p>
+        <p>All data is generated, seeded, and committed, with a held-out ground-truth manifest, so accuracy gets <b>measured and published, including the misses</b>. Zero real deal data, ever.</p>
+        <div class="links-line">
+          <a href="https://github.com/projectsofwill" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tr><th>agent</th><th>deterministic core</th><th style="color:var(--accent)">AI edge</th></tr>
+          <tr>
+            <td class="k">meddpicc</td>
+            <td>per-pillar 0/1/2 rubric, coverage &Sigma;/16, no evidence quote caps the score at 1</td>
+            <td><span class="ai">extracts evidence quotes from transcripts and email</span></td>
+          </tr>
+          <tr>
+            <td class="k">forecast-slip</td>
+            <td>weighted signals from field history (close-date pushes, stage regression, gone dark, single-threaded) into a 0-100 score with tiers</td>
+            <td><span class="ai">writes the Friday brief narrative, one evidence quote per deal</span></td>
+          </tr>
+          <tr>
+            <td class="k">closed-lost</td>
+            <td>dropdown reason vs. evidence-based reason, mismatch rate, dollars re-attributed</td>
+            <td><span class="ai">classifies the true loss reason from the artifacts</span></td>
+          </tr>
+          <tr>
+            <td class="k">stack</td>
+            <td colspan="2">Postgres · Python · Claude API (Haiku extract, Sonnet brief) · n8n · Slack</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= AI ================= -->
+<main id="view-ai" hidden>
+  <div class="pagehead">
+    <h1>Claude OS + Hermes</h1>
+    <p>A personal second brain plus an always-on agent stack: a desktop, a laptop, and a VPS, syncing through GitHub as the single hub, reachable from my phone over Telegram. It is not a demo. It runs my mornings, my research, my food, my training, and a weekly newsletter, every day, unattended.</p>
+    <div class="stats">
+      <span class="s"><b>5+</b>scoped agent profiles</span>
+      <span class="s"><b>6</b>services in the stack</span>
+      <span class="s"><b>3</b>model families in the loop</span>
+      <span class="s"><b>16</b>skills synced across machines</span>
+      <span class="s"><b>15 min</b>cross-device sync interval</span>
+    </div>
+  </div>
+
+  <section class="block" id="architecture">
+    <div class="sec-head"><h2>Cross-platform architecture</h2><span class="num">01</span></div>
+    <div class="sec-body single">
+      <div class="prose">
+        <p>Content never travels machine-to-server directly. Everything meets at GitHub; live queries take a separate path over a private VPN (Tailscale). Data is tiered by sensitivity, and the tiers are walls, not conventions.</p>
+        <p><b>Multi-model by design.</b> Claude builds. Every high-consequence change is critiqued by a second model family (Codex) before it ships, because blind spots are correlated: the verifier must be independent of the source. Gemini is the third engine, used for 1M-context whole-vault reads and as a tiebreaker when the first two disagree. The VPS agents run their own model with an off-provider fallback. No single vendor is a point of failure, or an unchecked authority.</p>
+      </div>
+    </div>
+    <div class="arch" aria-label="architecture diagram">
+      <div class="node">
+        <div class="t">Desktop PC + Mac laptop</div>
+        <div class="d">Claude Code, the builder<br>research wiki (source of truth)<br>memory tier: never leaves here</div>
+      </div>
+      <div class="link">←&nbsp;sync 15 min&nbsp;→</div>
+      <div class="node">
+        <div class="t">GitHub · the hub</div>
+        <div class="d">every repo meets here<br>no direct laptop-to-server link<br>VPS pulls read-only copies</div>
+      </div>
+      <div class="link">←&nbsp;pull only&nbsp;→</div>
+      <div class="node">
+        <div class="t">VPS · always on</div>
+        <div class="d">6-service Docker stack, non-root<br>agents + Postgres + key isolation<br>phone reaches it over Telegram,<br>dashboard over Tailscale only</div>
+      </div>
+    </div>
+    <div class="tablewrap" style="margin-top:28px">
+      <table>
+        <tr><th>store</th><th>lives on</th><th>holds</th></tr>
+        <tr><td class="k">research wiki</td><td>my machines <b>(source of truth)</b>, VPS gets a read-only copy</td><td>external knowledge: articles, tools, patterns, verdicts</td></tr>
+        <tr><td class="k">memory</td><td><b>my machines only</b>, never any server</td><td>the most sensitive facts: identity, preferences, records</td></tr>
+        <tr><td class="k">alfred db</td><td>VPS Postgres, private, backed up daily</td><td>operational self-logs: meals, workouts, people, captures</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="capabilities">
+    <div class="sec-head"><h2>The agents + what they do</h2><span class="num">02</span></div>
+    <div class="sec-body single"><div class="prose">
+      <p>The agents live on the VPS, always on, reachable from my phone over Telegram at any hour. Each profile is narrow by design and coordinates through a shared task board, not by talking to the others. Claude Code, on the desktop and laptop, is the builder that constructs and maintains all of it. Everything listed is live, not planned.</p>
+    </div></div>
+    <div style="margin-top:20px">
+      <details class="capgroup" open>
+        <summary><span class="gt">Alfred</span><span class="meta">the executive assistant · capture and organize</span><span class="ind"></span></summary>
+        <div class="caps">
+          <div class="cap"><span class="ck">morning brief</span><span class="cd">A daily 8am Telegram brief: today and tomorrow's calendar, <b>read-only inbox triage</b> (flags urgent, never sends), research highlights, one nudge.</span></div>
+          <div class="cap"><span class="ck">calendar write</span><span class="cd">Creates and updates events behind a <b>two-phase confirm gate</b>. OAuth is scoped to the minimum: read-only mail, events-only calendar.</span></div>
+          <div class="cap"><span class="ck">food</span><span class="cd">Log restaurants, recipes, and groceries in natural language ("amazing ramen on 9th"). Saved spots generate a browsable NYC dining guide (Places data, Maps links), rebuilt from the database.</span></div>
+          <div class="cap"><span class="ck">people layer</span><span class="cd">Tidbits per person (name-masked by design), birthdays mirrored to a dedicated calendar daily, and a 10am surface: who to reach out to, and why now.</span></div>
+        </div>
+      </details>
+      <details class="capgroup">
+        <summary><span class="gt">Arnold</span><span class="meta">the health coach · separate bot, own database role</span><span class="ind"></span></summary>
+        <div class="caps">
+          <div class="cap"><span class="ck">workout logging</span><span class="cd">Natural language straight to the database: "did 3x8 bench at 135", "ran 25 min zone 2".</span></div>
+          <div class="cap"><span class="ck">coaching</span><span class="cd">Recommends today's session from a 4-day rotation, <b>gated by Oura readiness</b> and hard constraints (injuries, equipment). The rotation and gating are deterministic; <span class="ai">the model only writes the conversation</span>.</span></div>
+          <div class="cap"><span class="ck">cooking assistant</span><span class="cd">Recipe recall mid-cooking ("I'm out of X", "scale this to 4") appends a non-destructive alternatives section. The base recipe is never overwritten.</span></div>
+        </div>
+      </details>
+      <details class="capgroup">
+        <summary><span class="gt">Hermes stack</span><span class="meta">orchestrator + researcher · the plumbing</span><span class="ind"></span></summary>
+        <div class="caps">
+          <div class="cap"><span class="ck">research ingest</span><span class="cd">A locked-down researcher discovers and captures daily from Reddit, YouTube, RSS, Hacker News, and GitHub releases. <span class="ai">Two LLM passes sanitize and classify</span>, then a human gate promotes to the wiki.</span></div>
+          <div class="cap"><span class="ck">link capture</span><span class="cd">Send any link over Telegram and it lands organized: recipes and restaurants extract into the database, articles route to the research wiki. Failure is honest; it never fakes a "saved."</span></div>
+          <div class="cap"><span class="ck">instagram sync</span><span class="cd">Save a post into a collection (NYC, Travel, Food, AI) and a twice-daily job pulls it into the same pipeline. <span class="ai">Thin captions fall back to reading the images</span>, so one ranked-list carousel can yield ten venues.</span></div>
+          <div class="cap"><span class="ck">newsletter</span><span class="cd">A weekly RevOps + GTM engineering issue, <span class="ai">drafted by the stack from the week's research</span>, auto-published every Sunday to a public archive and emailed.</span></div>
+          <div class="cap"><span class="ck">llm fallback</span><span class="cd">If the primary model's quota exhausts, profiles fail over to a backup provider with a Telegram alert. Alfred is excluded by design: inbox and calendar PII never routes off-provider.</span></div>
+        </div>
+      </details>
+      <details class="capgroup">
+        <summary><span class="gt">Claude OS</span><span class="meta">the desk-side builder · PC + Mac</span><span class="ind"></span></summary>
+        <div class="caps">
+          <div class="cap"><span class="ck">build + maintain</span><span class="cd">Builds and maintains the whole system: code, automations, skills, configs. High-consequence changes pass the <b>second-model critique gate</b> before they ship.</span></div>
+          <div class="cap"><span class="ck">skills</span><span class="cd">16 slash-command workflows synced to every machine (session continuity, ingest, audits, scaffolding). Detail in the optimizations section below.</span></div>
+          <div class="cap"><span class="ck">memory</span><span class="cd">Durable facts persist across sessions in flat files with a loaded index; live status stays in per-project dashboards so the always-on context stays lean.</span></div>
+        </div>
+      </details>
+    </div>
+    <div class="tablewrap" style="margin-top:32px">
+      <table>
+        <tr><th>profile</th><th>scope</th><th>can</th><th>cannot</th></tr>
+        <tr><td class="k">orchestrator</td><td>Telegram + scheduling</td><td>route, dispatch, capture</td><td>read mail, write calendar</td></tr>
+        <tr><td class="k">alfred (EA)</td><td>calendar + inbox + people</td><td>draft, brief, confirm-gated writes</td><td>send anything, ever</td></tr>
+        <tr><td class="k">researcher</td><td>the open web</td><td>write inert markdown</td><td>use tools, touch data</td></tr>
+        <tr><td class="k">arnold</td><td>health + food</td><td>log, coach, recall recipes</td><td>see people data</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="ingest">
+    <div class="sec-head"><h2>The ingest engine</h2><span class="num">03</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>The capture rule: <b>zero-structure input, automated organization</b>. Nothing asks me to file, tag, or format at capture time. I send a link, save a post, or clip a page; the pipeline does the rest.</p>
+        <p>Untrusted web content is treated as hostile until proven otherwise. The autonomous researcher is <b>tool-less</b>: it can only write inert markdown. <span class="ai-note">A dual-LLM firewall sanitizes and classifies every capture</span>, a deterministic regex scan quarantines anything carrying injection markers before a model ever reads it, and a human gate sits before the wiki. Prompt injection is assumed, not hoped away.</p>
+        <p>The wiki itself is Karpathy-style: flat markdown, no RAG, no embeddings, pages organized by function (sources, patterns, concepts, guides) with per-domain verdict pages that record what to adopt and what to skip.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tr><th>stage</th><th>what happens</th></tr>
+          <tr><td class="k">1 · capture</td><td>Telegram link, Instagram save, web clipper, or the autonomous researcher</td></tr>
+          <tr><td class="k">2 · sanitize</td><td><span class="ai">LLM pass strips injection attempts from the raw content</span></td></tr>
+          <tr><td class="k">3 · classify</td><td><span class="ai">second LLM routes it: recipe, restaurant, research, noise</span></td></tr>
+          <tr><td class="k">4 · scan</td><td>deterministic quarantine scan, regex not model, cannot be injected</td></tr>
+          <tr><td class="k">5 · human gate</td><td>nothing promotes to the wiki without an eyeball</td></tr>
+          <tr><td class="k">6 · wiki</td><td>cross-linked pages + verdicts, queryable by a deterministic retriever</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="memory">
+    <div class="sec-head"><h2>Memory + optimizations</h2><span class="num">04</span></div>
+    <div class="sec-body single"><div class="prose">
+      <p>The unglamorous layer that keeps the system cheap, legible, and durable. Most of it is subtraction: no vector database, no embeddings, no framework, flat files an agent (or I) can read directly.</p>
+    </div></div>
+    <div class="caps">
+      <div class="cap"><span class="ck">llm wiki</span><span class="cd">The second brain is a Karpathy-style wiki: <b>flat markdown, no RAG, no embeddings</b>, links resolve by filename, so it survives model and tool changes. An earlier semantic search index was built, measured, and retired once flat-file navigation proved sufficient.</span></div>
+      <div class="cap"><span class="ck">okf indexes</span><span class="cd">Every managed folder carries an <b>index.md</b> describing its contents, so an agent loads cheap folder metadata before opening files. Navigation cost drops before a single document is read.</span></div>
+      <div class="cap"><span class="ck">deterministic recall</span><span class="cd">Wiki lookups run through a scoring retriever (index lines + filename tokens, no model in the loop) that opens only the top page. About <b>60% cheaper and 55% faster</b> than letting the model read around.</span></div>
+      <div class="cap"><span class="ck">headroom</span><span class="cd">An always-on compression proxy sits between the editor and the API, compressing conversation context in flight. Long build sessions stay affordable without changing how I work.</span></div>
+      <div class="cap"><span class="ck">model routing</span><span class="cd">Two operating points, nothing in between: an everyday model for routine work, escalation to the frontier the moment a trigger fires (irreversibility, trust boundaries, ambiguous requirements). Consequence beats category.</span></div>
+      <div class="cap"><span class="ck">review dispatch</span><span class="cd">Second-model critiques run in an isolated subagent, so the bulky review transcript is billed once instead of riding along in every later turn (about 18% measured saving).</span></div>
+      <div class="cap"><span class="ck">continuity</span><span class="cd">Every session ends in a written handoff and starts warm from it; an append-only session log is the continuity record. A cold start reads one file, not a history.</span></div>
+    </div>
+    <div class="subhead">Skills I built (16, synced to every machine)</div>
+    <div class="caps">
+      <div class="cap"><span class="ck">/resume · /wrap-up</span><span class="cd">Session continuity as a ritual: close a session into a handoff, open the next one warm from it.</span></div>
+      <div class="cap"><span class="ck">/ingest</span><span class="cd">Capture any URL or clipped source into the wiki through the full pipeline: dedup, safety scan, source page, cross-links, verdicts.</span></div>
+      <div class="cap"><span class="ck">/assess</span><span class="cd">Evaluate an external tool or idea against the existing system and return a verdict: adopt now, already have it, skip, or roadmap it. Gated on measured need.</span></div>
+      <div class="cap"><span class="ck">/os-hygiene · /os-healthcheck</span><span class="cd">The audits: is the always-loaded context lean and single-sourced, and is everything actually still running. The healthcheck labels what each check does not prove.</span></div>
+      <div class="cap"><span class="ck">/watch</span><span class="cd">Watch a video like an editor: scene-change frames, pacing metrics, transcript, and an ingest-ready report.</span></div>
+      <div class="cap"><span class="ck">/recall</span><span class="cd">The deterministic wiki lookup above, as a one-line command with a citation.</span></div>
+      <div class="cap"><span class="ck">/new-project</span><span class="cd">Scaffold a new project repo with the house conventions and register it for cross-device sync in one pass.</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="security">
+    <div class="sec-head"><h2>Security posture</h2><span class="num">05</span></div>
+    <div class="sec-body single"><div class="prose">
+      <p>The operating principle: capabilities are <b>built but fenced</b>. Every action sits behind an approval gate, a live flag, or a scoped token until I deliberately open it.</p>
+    </div></div>
+    <div class="caps">
+      <div class="cap"><span class="ck">exposure</span><span class="cd">The VPS runs non-root; services publish on the private VPN address only. The sole public listener is key-only SSH. A Docker egress allowlist blocks abuse ports.</span></div>
+      <div class="cap"><span class="ck">secrets</span><span class="cd">Keys live only in gitignored env files, isolated per component in a container the agents cannot read, with a written rotation runbook.</span></div>
+      <div class="cap"><span class="ck">trust gates</span><span class="cd">A second, independent model family critiques every hard-to-reverse change before it ships. Calendar writes take a two-phase confirm. Hooks block destructive git operations.</span></div>
+      <div class="cap"><span class="ck">pii</span><span class="cd">The most sensitive tier never leaves the laptops. People's names are masked in the database. The EA is excluded from any fallback provider.</span></div>
+      <div class="cap"><span class="ck">untrusted input</span><span class="cd">Web content is fenced by the ingest pipeline above: tool-less researcher, dual-LLM firewall, deterministic quarantine, human gate.</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="starter">
+    <div class="sec-head"><h2>Build your own</h2><span class="num">06</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>I distilled the whole build into a starter kit: the build order (seven steps, each buying a specific capability), a phased VPS setup runbook with a security checklist, de-personalized templates for the context files, a secrets-101 guide, and copy-paste prompts that point your own Claude Code at each step.</p>
+        <p>It exists because three of the seven steps are where everyone gets stuck, and the kit puts a verification at the end of every risky step: prove the gitignore holds before the first push, prove the VPN wall refuses outside connections before going always-on.</p>
+        <p class="meta" style="margin-top:18px"><span class="lbl">Currently shared on request while it graduates to a public repo.</span></p>
+        <div class="links-line">
+          <a href="https://github.com/projectsofwill" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://projectsofwill.github.io/newsletter-archive" target="_blank" rel="noopener">The weekly newsletter ↗</a>
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tr><th>step</th><th>what it buys</th></tr>
+          <tr><td class="k">1-2 · context</td><td>who you are, how you work, what the assistant should never do</td></tr>
+          <tr><td class="k">3-4 · memory + skills</td><td>session continuity and repeatable workflows</td></tr>
+          <tr><td class="k">5 · the wiki</td><td>a second brain that survives model changes: flat files, no lock-in</td></tr>
+          <tr><td class="k">6 · sync</td><td>every machine, one state, 15-minute loop through GitHub</td></tr>
+          <tr><td class="k">7 · the agent</td><td>the always-on layer: brief, capture, research, fenced by default</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="meta">
+    <a href="https://github.com/projectsofwill" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="https://projectsofwill.github.io/newsletter-archive" target="_blank" rel="noopener">Newsletter</a> ·
+    <a href="https://www.linkedin.com/in/williamwliu/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <div class="meta" style="text-align:right"><span class="lbl">Geist · IBM Plex Mono · no tracking, no cookies</span></div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var btn=document.getElementById('themeBtn');
+  function setTheme(t){
+    root.setAttribute('data-theme',t);
+    btn.innerHTML=(t==='dark'?'Light mode':'Dark mode')+' <span class="key">( L )</span>';
+  }
+  setTheme(root.getAttribute('data-theme')||'dark');
+  function flip(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');}
+  btn.addEventListener('click',flip);
+
+  var views={home:document.getElementById('view-home'),revops:document.getElementById('view-revops'),ai:document.getElementById('view-ai')};
+  function routeView(){
+    var h=location.hash.replace('#/','')||'home';
+    if(!views[h])h='home';
+    for(var k in views)views[k].hidden=(k!==h);
+    document.querySelectorAll('[data-nav]').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-nav')===h);});
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',routeView);
+  routeView();
+
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
+    var k=e.key.toLowerCase();
+    if(k==='l')flip();
+    else if(k==='1')location.hash='#/revops';
+    else if(k==='2')location.hash='#/ai';
+    else if(k==='0'||k==='h')location.hash='#/';
+  });
+
+  var margin=document.getElementById('margin'),disc=document.getElementById('disc'),
+      terms=document.getElementById('terms'),clause=document.getElementById('clause'),
+      marginOut=document.getElementById('marginOut'),discOut=document.getElementById('discOut'),
+      decision=document.getElementById('decision'),audit=document.getElementById('audit');
+  function route(){
+    var m=+margin.value,d=+disc.value,t=+terms.value,c=clause.checked;
+    marginOut.textContent=m+'%';discOut.textContent=d+'%';
+    var to=[],lines=[];
+    function fire(rule,detail,dest){lines.push('<span class="fired">RULE '+rule+'</span> <span class="r">'+detail+' → '+dest+'</span>');if(to.indexOf(dest)<0)to.push(dest);}
+    if(m<60)fire('margin_floor','blended margin '+m+'% &lt; 60%','DEAL DESK');
+    if(d>20)fire('per_line_floor','line discount '+d+'% &gt; 20%','FINANCE');
+    else if(d>=10)fire('discount_band','line discount '+d+'% in 10–20% band','MANAGER');
+    if(t===90)fire('payment_terms','Net 90 ≠ standard','FINANCE');
+    if(c)fire('nonstd_clause','termination for convenience','LEGAL');
+    if(to.length===0){
+      decision.textContent='Auto-approved';decision.className='decision ok';
+      lines.push('<span class="r">no rule fired → self-serve, no human in the loop</span>');
+    }else{
+      decision.textContent='Routed → '+to.join(' + ');decision.className='decision route';
+    }
+    audit.innerHTML=lines.join('<br>');
+  }
+  [margin,disc,terms,clause].forEach(function(el){el.addEventListener('input',route);});
+  route();
+})();
+</script>

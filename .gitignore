@@ -1,0 +1,7 @@
+.env.keys
+*.local
+credentials.json
+token.json
+.DS_Store
+.vscode/
+.idea/
