@@ -138,15 +138,72 @@
   td{color:var(--text-2)}
   td b{color:var(--text);font-weight:500}
 
-  /* ---------- architecture diagram ---------- */
-  .arch{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:stretch;margin-top:28px}
-  @media(max-width:900px){.arch{grid-template-columns:1fr;gap:0}}
-  .arch .node{border:1px solid var(--border);border-radius:6px;padding:16px;background:var(--card);transition:background-color .4s var(--easing),border-color .4s var(--easing)}
-  .arch .node .t{font-family:'Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
-  .arch .node .d{font-family:'Plex Mono',monospace;font-size:11px;line-height:1.7;color:var(--muted);margin-top:8px}
-  .arch .link{display:flex;align-items:center;justify-content:center;padding:0 14px;font-family:'Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
-  @media(max-width:900px){.arch .link{padding:10px 0;justify-content:flex-start}}
-  .arch-foot{margin-top:14px}
+  /* ---------- architecture topology ---------- */
+  .topo{display:grid;grid-template-columns:minmax(0,5fr) auto minmax(0,5fr) auto minmax(0,6fr) auto minmax(0,4fr);gap:0;align-items:stretch;margin-top:28px}
+  .topo .node{border:1px solid var(--border);border-radius:6px;padding:16px;background:var(--card);transition:background-color .4s var(--easing),border-color .4s var(--easing)}
+  .topo .node .t{font-family:'Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+  .topo .node .d{font-family:'Plex Mono',monospace;font-size:11px;line-height:1.7;color:var(--muted);margin-top:8px}
+  .topo .link{display:flex;align-items:center;justify-content:center;padding:0 12px;font-family:'Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+  .tsvc{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+  .tsvc span{font-family:'Plex Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;background:var(--chip-bg);color:var(--text-2)}
+  .ttail{grid-column:1/6;grid-row:2;position:relative;height:26px;margin:0 48px;border:1px dashed var(--border);border-top:none;border-radius:0 0 6px 6px}
+  .ttail span{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);background:var(--bg);padding:0 10px;font-family:'Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;transition:background-color .4s var(--easing)}
+  @media(max-width:900px){
+    .topo{grid-template-columns:1fr}
+    .topo .link{padding:10px 0;justify-content:flex-start}
+    .ttail{grid-column:1;grid-row:auto;height:auto;margin:10px 0 0;border:1px dashed var(--border);border-radius:6px;padding:10px 14px}
+    .ttail span{position:static;transform:none;background:none;padding:0;white-space:normal}
+  }
+
+  /* ---------- jump nav ---------- */
+  .jumpnav{display:flex;flex-wrap:wrap;gap:8px 22px;padding:2px 0 26px}
+  .jumpnav a{font-family:'Plex Mono',monospace;font-size:11px;color:var(--text-2);border-bottom:none}
+  .jumpnav a:hover{color:var(--accent)}
+  .jumpnav .jn{color:var(--number);font-variant-numeric:tabular-nums}
+
+  /* ---------- pipeline flow diagram ---------- */
+  .flow{margin-top:32px}
+  .flow-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr) auto) minmax(0,1fr);align-items:stretch}
+  .fnode{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:6px;padding:14px;background:var(--card);transition:background-color .4s var(--easing),border-color .4s var(--easing)}
+  .fnode.ai{border-top:2px solid var(--accent)}
+  .fnode.gate{border-style:dashed}
+  .fhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .fhead .t{font-family:'Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+  .fhead .no{font-family:'Plex Mono',monospace;font-size:10px;color:var(--number);font-variant-numeric:tabular-nums}
+  .fnode .ftag{align-self:flex-start;font-family:'Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:3px;background:var(--chip-bg);color:var(--text-2);margin-top:9px}
+  .fnode .ftag.ai{color:var(--accent)}
+  .fnode .ftag.ok{color:var(--ok)}
+  .fnode .d{font-family:'Plex Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted);margin-top:8px}
+  .fnode .fx{margin-top:auto;padding-top:10px;font-family:'Plex Mono',monospace;font-size:10.5px;color:var(--muted)}
+  .farr{display:flex;align-items:center;justify-content:center;padding:0 9px;font-family:'Plex Mono',monospace;font-size:12px;color:var(--muted)}
+  .farr::before{content:'→'}
+  @media(max-width:900px){
+    .flow-row{grid-template-columns:1fr}
+    .farr{padding:8px 2px;justify-content:flex-start}
+    .farr::before{content:'↓'}
+  }
+  .sw.hum{background:none;border:1px dashed var(--muted)}
+
+  .flow-row.n3{grid-template-columns:repeat(2,minmax(0,1fr) auto) minmax(0,1fr)}
+  @media(max-width:900px){.flow-row.n3{grid-template-columns:1fr}}
+
+  /* ---------- per-profile fences ---------- */
+  .fence{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;border-top:1px solid var(--border-soft);padding:12px 0 4px;font-family:'Plex Mono',monospace;font-size:11px;line-height:1.6;color:var(--text-2)}
+  .fence .fp{color:var(--muted);min-width:96px}
+  .fence .fy,.fence .fn{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .fence .fn{margin-left:14px}
+  .fence .nv{color:var(--text)}
+
+  /* ---------- cadence strip ---------- */
+  .cad{margin-top:6px}
+  .cad-lane{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--border-soft)}
+  .cad-lane:first-child{border-top:none}
+  .cad-lane .cl{font-family:'Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:1px}
+  .cad-track{display:flex;flex-wrap:wrap;gap:10px 28px}
+  .ci{font-family:'Plex Mono',monospace;font-size:11.5px;line-height:1.6;color:var(--text-2);border-left:2px solid var(--border);padding-left:9px}
+  .ci b{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
+  .ci .ai{color:var(--accent)}
+  @media(max-width:720px){.cad-lane{grid-template-columns:1fr;gap:6px}}
 
   /* ---------- capability list ---------- */
   .caps{margin-top:8px}
@@ -351,36 +408,75 @@
     <h1>Claude OS + Hermes</h1>
     <p>A personal second brain plus an always-on agent stack: a desktop, a laptop, and a VPS, syncing through GitHub as the single hub, reachable from my phone over Telegram. It is not a demo. It runs my mornings, my research, my food, my training, and a weekly newsletter, every day, unattended.</p>
     <div class="stats">
+      <span class="s"><b>8</b>newsletter issues shipped unattended</span>
+      <span class="s"><b>330+</b>wiki pages, cross-linked</span>
       <span class="s"><b>5+</b>scoped agent profiles</span>
-      <span class="s"><b>6</b>services in the stack</span>
-      <span class="s"><b>3</b>model families in the loop</span>
       <span class="s"><b>16</b>skills synced across machines</span>
       <span class="s"><b>15 min</b>cross-device sync interval</span>
     </div>
+    <nav class="jumpnav" aria-label="page sections">
+      <a data-jump="architecture" href="#/ai"><span class="jn">01</span> architecture</a>
+      <a data-jump="capabilities" href="#/ai"><span class="jn">02</span> agents</a>
+      <a data-jump="ingest" href="#/ai"><span class="jn">03</span> ingest</a>
+      <a data-jump="memory" href="#/ai"><span class="jn">04</span> memory</a>
+      <a data-jump="security" href="#/ai"><span class="jn">05</span> security</a>
+      <a data-jump="record" href="#/ai"><span class="jn">06</span> build record</a>
+      <a data-jump="gateway" href="#/ai"><span class="jn">07</span> gateway</a>
+      <a data-jump="starter" href="#/ai"><span class="jn">08</span> starter</a>
+    </nav>
   </div>
 
-  <section class="block" id="architecture">
+  <section class="block" id="architecture"><section class="block" id="architecture">
     <div class="sec-head"><h2>Cross-platform architecture</h2><span class="num">01</span></div>
     <div class="sec-body single">
       <div class="prose">
-        <p>Content never travels machine-to-server directly. Everything meets at GitHub; live queries take a separate path over a private VPN (Tailscale). Data is tiered by sensitivity, and the tiers are walls, not conventions.</p>
+        <p>Content never travels machine-to-server directly. Everything meets at GitHub; live queries take a separate path over a private VPN (<a href="https://tailscale.com/" target="_blank" rel="noopener">Tailscale</a>). Data is tiered by sensitivity, and the tiers are walls, not conventions.</p>
         <p><b>Multi-model by design.</b> Claude builds. Every high-consequence change is critiqued by a second model family (Codex) before it ships, because blind spots are correlated: the verifier must be independent of the source. Gemini is the third engine, used for 1M-context whole-vault reads and as a tiebreaker when the first two disagree. The VPS agents run their own model with an off-provider fallback. No single vendor is a point of failure, or an unchecked authority.</p>
       </div>
     </div>
-    <div class="arch" aria-label="architecture diagram">
+    <div class="topo" aria-label="architecture diagram">
       <div class="node">
         <div class="t">Desktop PC + Mac laptop</div>
         <div class="d">Claude Code, the builder<br>research wiki (source of truth)<br>memory tier: never leaves here</div>
       </div>
-      <div class="link">←&nbsp;sync 15 min&nbsp;→</div>
+      <div class="link">&larr;&nbsp;sync 15 min&nbsp;&rarr;</div>
       <div class="node">
-        <div class="t">GitHub · the hub</div>
+        <div class="t">GitHub &middot; the hub</div>
         <div class="d">every repo meets here<br>no direct laptop-to-server link<br>VPS pulls read-only copies</div>
       </div>
-      <div class="link">←&nbsp;pull only&nbsp;→</div>
+      <div class="link">pull only&nbsp;&rarr;</div>
       <div class="node">
-        <div class="t">VPS · always on</div>
-        <div class="d">6-service Docker stack, non-root<br>agents + Postgres + key isolation<br>phone reaches it over Telegram,<br>dashboard over Tailscale only</div>
+        <div class="t">VPS &middot; always on</div>
+        <div class="d">Docker stack, non-root, keys isolated per service</div>
+        <div class="tsvc"><span>orchestrator</span><span>alfred</span><span>arnold</span><span>researcher</span><span>postgres</span><span>dashboard</span></div>
+      </div>
+      <div class="link">&larr;&nbsp;telegram</div>
+      <div class="node">
+        <div class="t">Phone &middot; anywhere</div>
+        <div class="d">talks to the agents over Telegram, any hour</div>
+      </div>
+      <div class="ttail"><span>tailscale private VPN &middot; live queries + dashboard &middot; never public</span></div>
+    </div>
+    <div class="flow" style="margin-top:26px">
+      <div class="flow-row n3">
+        <div class="fnode">
+          <div class="fhead"><span class="t">build</span></div>
+          <span class="ftag ai">claude</span>
+          <div class="d">writes the change, desk-side or on the VPS</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">critique</span></div>
+          <span class="ftag ai">codex &middot; second family</span>
+          <div class="d">read-only skeptic pass on every high-consequence change</div>
+          <div class="fx">&#8627; deadlock? gemini, a third family, tiebreaks</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">ship</span></div>
+          <span class="ftag">gated</span>
+          <div class="d">hooks block destructive git; sync publishes in 15 min</div>
+        </div>
       </div>
     </div>
     <div class="tablewrap" style="margin-top:28px">
@@ -396,7 +492,7 @@
   <section class="block" id="capabilities">
     <div class="sec-head"><h2>The agents + what they do</h2><span class="num">02</span></div>
     <div class="sec-body single"><div class="prose">
-      <p>The agents live on the VPS, always on, reachable from my phone over Telegram at any hour. Each profile is narrow by design and coordinates through a shared task board, not by talking to the others. Claude Code, on the desktop and laptop, is the builder that constructs and maintains all of it. Everything listed is live, not planned.</p>
+      <p>Four groups, and only two of them are agents. Alfred and Arnold are the user-facing ones, scoped profiles on the VPS, reachable from my phone over Telegram at any hour. The Hermes stack is the machinery behind them: an orchestrator that routes and schedules, a fenced researcher, and the pipelines they feed. Claude OS is not on the VPS at all; it is the desk-side builder that constructs and maintains everything here. Profiles are narrow by design and coordinate through a shared task board, not by talking to each other. Everything listed is live, not planned, and every <b>cannot</b> below is an enforced fence.</p>
     </div></div>
     <div style="margin-top:20px">
       <details class="capgroup" open>
@@ -406,6 +502,7 @@
           <div class="cap"><span class="ck">calendar write</span><span class="cd">Creates and updates events behind a <b>two-phase confirm gate</b>. OAuth is scoped to the minimum: read-only mail, events-only calendar.</span></div>
           <div class="cap"><span class="ck">food</span><span class="cd">Log restaurants, recipes, and groceries in natural language ("amazing ramen on 9th"). Saved spots generate a browsable NYC dining guide (Places data, Maps links), rebuilt from the database.</span></div>
           <div class="cap"><span class="ck">people layer</span><span class="cd">Tidbits per person (name-masked by design), birthdays mirrored to a dedicated calendar daily, and a 10am surface: who to reach out to, and why now.</span></div>
+          <div class="fence"><span class="fy">can</span><span>draft, brief, confirm-gated writes</span><span class="fn">cannot</span><span class="nv">send anything, ever</span></div>
         </div>
       </details>
       <details class="capgroup">
@@ -414,6 +511,7 @@
           <div class="cap"><span class="ck">workout logging</span><span class="cd">Natural language straight to the database: "did 3x8 bench at 135", "ran 25 min zone 2".</span></div>
           <div class="cap"><span class="ck">coaching</span><span class="cd">Recommends today's session from a 4-day rotation, <b>gated by Oura readiness</b> and hard constraints (injuries, equipment). The rotation and gating are deterministic; <span class="ai">the model only writes the conversation</span>.</span></div>
           <div class="cap"><span class="ck">cooking assistant</span><span class="cd">Recipe recall mid-cooking ("I'm out of X", "scale this to 4") appends a non-destructive alternatives section. The base recipe is never overwritten.</span></div>
+          <div class="fence"><span class="fy">can</span><span>log, coach, recall recipes</span><span class="fn">cannot</span><span class="nv">see people data</span></div>
         </div>
       </details>
       <details class="capgroup">
@@ -422,8 +520,10 @@
           <div class="cap"><span class="ck">research ingest</span><span class="cd">A locked-down researcher discovers and captures daily from Reddit, YouTube, RSS, Hacker News, and GitHub releases. <span class="ai">Two LLM passes sanitize and classify</span>, then a human gate promotes to the wiki.</span></div>
           <div class="cap"><span class="ck">link capture</span><span class="cd">Send any link over Telegram and it lands organized: recipes and restaurants extract into the database, articles route to the research wiki. Failure is honest; it never fakes a "saved."</span></div>
           <div class="cap"><span class="ck">instagram sync</span><span class="cd">Save a post into a collection (NYC, Travel, Food, AI) and a twice-daily job pulls it into the same pipeline. <span class="ai">Thin captions fall back to reading the images</span>, so one ranked-list carousel can yield ten venues.</span></div>
-          <div class="cap"><span class="ck">newsletter</span><span class="cd">A weekly RevOps + GTM engineering issue, <span class="ai">drafted by the stack from the week's research</span>, auto-published every Sunday to a public archive and emailed.</span></div>
+          <div class="cap"><span class="ck">newsletter</span><span class="cd">A weekly RevOps + GTM engineering issue, <span class="ai">drafted by the stack from the week's research</span>, auto-published every Sunday to a <a href="https://projectsofwill.github.io/newsletter-archive" target="_blank" rel="noopener">public archive</a> and emailed.</span></div>
           <div class="cap"><span class="ck">llm fallback</span><span class="cd">If the primary model's quota exhausts, profiles fail over to a backup provider with a Telegram alert. Alfred is excluded by design: inbox and calendar PII never routes off-provider.</span></div>
+          <div class="fence"><span class="fp">orchestrator</span><span class="fy">can</span><span>route, dispatch, capture</span><span class="fn">cannot</span><span class="nv">read mail, write calendar</span></div>
+          <div class="fence"><span class="fp">researcher</span><span class="fy">can</span><span>write inert markdown</span><span class="fn">cannot</span><span class="nv">use tools, touch data</span></div>
         </div>
       </details>
       <details class="capgroup">
@@ -432,38 +532,87 @@
           <div class="cap"><span class="ck">build + maintain</span><span class="cd">Builds and maintains the whole system: code, automations, skills, configs. High-consequence changes pass the <b>second-model critique gate</b> before they ship.</span></div>
           <div class="cap"><span class="ck">skills</span><span class="cd">16 slash-command workflows synced to every machine (session continuity, ingest, audits, scaffolding). Detail in the optimizations section below.</span></div>
           <div class="cap"><span class="ck">memory</span><span class="cd">Durable facts persist across sessions in flat files with a loaded index; live status stays in per-project dashboards so the always-on context stays lean.</span></div>
+          <div class="fence"><span class="fy">can</span><span>build, refactor, dispatch critiques</span><span class="fn">cannot</span><span class="nv">push or rewrite history (hooks deny it)</span></div>
         </div>
       </details>
     </div>
-    <div class="tablewrap" style="margin-top:32px">
-      <table>
-        <tr><th>profile</th><th>scope</th><th>can</th><th>cannot</th></tr>
-        <tr><td class="k">orchestrator</td><td>Telegram + scheduling</td><td>route, dispatch, capture</td><td>read mail, write calendar</td></tr>
-        <tr><td class="k">alfred (EA)</td><td>calendar + inbox + people</td><td>draft, brief, confirm-gated writes</td><td>send anything, ever</td></tr>
-        <tr><td class="k">researcher</td><td>the open web</td><td>write inert markdown</td><td>use tools, touch data</td></tr>
-        <tr><td class="k">arnold</td><td>health + food</td><td>log, coach, recall recipes</td><td>see people data</td></tr>
-      </table>
+    <div class="subhead">The cadence, unattended</div>
+    <div class="cad">
+      <div class="cad-lane"><span class="cl">always</span>
+        <div class="cad-track">
+          <span class="ci"><b>every 15 min</b> all repos sync through GitHub, both machines + VPS</span>
+        </div>
+      </div>
+      <div class="cad-lane"><span class="cl">daily</span>
+        <div class="cad-track">
+          <span class="ci"><b>08:00</b> morning brief lands on Telegram</span>
+          <span class="ci"><b>10:00</b> people surface: who to reach out to, and why</span>
+          <span class="ci"><b>2&times;</b> instagram saves pulled into the pipeline</span>
+          <span class="ci"><b>1&times;</b> <span class="ai">researcher</span> sweeps Reddit, YouTube, RSS, HN, GitHub</span>
+          <span class="ci"><b>1&times;</b> postgres backup</span>
+        </div>
+      </div>
+      <div class="cad-lane"><span class="cl">weekly</span>
+        <div class="cad-track">
+          <span class="ci"><b>sun</b> newsletter <span class="ai">drafted from the week's research</span>, published + emailed</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="block" id="ingest">
     <div class="sec-head"><h2>The ingest engine</h2><span class="num">03</span></div>
-    <div class="sec-body">
+    <div class="sec-body single">
       <div class="prose">
         <p>The capture rule: <b>zero-structure input, automated organization</b>. Nothing asks me to file, tag, or format at capture time. I send a link, save a post, or clip a page; the pipeline does the rest.</p>
         <p>Untrusted web content is treated as hostile until proven otherwise. The autonomous researcher is <b>tool-less</b>: it can only write inert markdown. <span class="ai-note">A dual-LLM firewall sanitizes and classifies every capture</span>, a deterministic regex scan quarantines anything carrying injection markers before a model ever reads it, and a human gate sits before the wiki. Prompt injection is assumed, not hoped away.</p>
-        <p>The wiki itself is Karpathy-style: flat markdown, no RAG, no embeddings, pages organized by function (sources, patterns, concepts, guides) with per-domain verdict pages that record what to adopt and what to skip.</p>
+        <p>The wiki itself is <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Karpathy-style</a>: flat markdown, no RAG, no embeddings, pages organized by function (sources, patterns, concepts, guides) with per-domain verdict pages that record what to adopt and what to skip.</p>
       </div>
-      <div class="tablewrap">
-        <table>
-          <tr><th>stage</th><th>what happens</th></tr>
-          <tr><td class="k">1 · capture</td><td>Telegram link, Instagram save, web clipper, or the autonomous researcher</td></tr>
-          <tr><td class="k">2 · sanitize</td><td><span class="ai">LLM pass strips injection attempts from the raw content</span></td></tr>
-          <tr><td class="k">3 · classify</td><td><span class="ai">second LLM routes it: recipe, restaurant, research, noise</span></td></tr>
-          <tr><td class="k">4 · scan</td><td>deterministic quarantine scan, regex not model, cannot be injected</td></tr>
-          <tr><td class="k">5 · human gate</td><td>nothing promotes to the wiki without an eyeball</td></tr>
-          <tr><td class="k">6 · wiki</td><td>cross-linked pages + verdicts, queryable by a deterministic retriever</td></tr>
-        </table>
+    </div>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="fnode">
+          <div class="fhead"><span class="t">capture</span><span class="no">1</span></div>
+          <span class="ftag">any source</span>
+          <div class="d">Telegram link, Instagram save, web clipper, or the autonomous researcher</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode ai">
+          <div class="fhead"><span class="t">sanitize</span><span class="no">2</span></div>
+          <span class="ftag ai">llm pass</span>
+          <div class="d">strips injection attempts from the raw content</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode ai">
+          <div class="fhead"><span class="t">classify</span><span class="no">3</span></div>
+          <span class="ftag ai">llm pass</span>
+          <div class="d">second model routes it: recipe, restaurant, research</div>
+          <div class="fx">↳ noise gets dropped</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">scan</span><span class="no">4</span></div>
+          <span class="ftag">regex, no model</span>
+          <div class="d">deterministic quarantine scan, cannot be injected</div>
+          <div class="fx">↳ markers → quarantine</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode gate">
+          <div class="fhead"><span class="t">human gate</span><span class="no">5</span></div>
+          <span class="ftag">eyeball</span>
+          <div class="d">nothing promotes to the wiki without review</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">wiki</span><span class="no">6</span></div>
+          <span class="ftag ok">trusted store</span>
+          <div class="d">cross-linked pages + verdicts, queryable by a deterministic retriever</div>
+        </div>
+      </div>
+      <div class="legend" style="margin-top:18px">
+        <span><span class="sw det"></span>deterministic</span>
+        <span><span class="sw ai"></span>model in the loop</span>
+        <span><span class="sw hum"></span>human approval</span>
       </div>
     </div>
   </section>
@@ -474,8 +623,8 @@
       <p>The unglamorous layer that keeps the system cheap, legible, and durable. Most of it is subtraction: no vector database, no embeddings, no framework, flat files an agent (or I) can read directly.</p>
     </div></div>
     <div class="caps">
-      <div class="cap"><span class="ck">llm wiki</span><span class="cd">The second brain is a Karpathy-style wiki: <b>flat markdown, no RAG, no embeddings</b>, links resolve by filename, so it survives model and tool changes. An earlier semantic search index was built, measured, and retired once flat-file navigation proved sufficient.</span></div>
-      <div class="cap"><span class="ck">okf indexes</span><span class="cd">Every managed folder carries an <b>index.md</b> describing its contents, so an agent loads cheap folder metadata before opening files. Navigation cost drops before a single document is read.</span></div>
+      <div class="cap"><span class="ck">llm wiki</span><span class="cd">The second brain is a <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Karpathy-style</a> wiki: <b>flat markdown, no RAG, no embeddings</b>, links resolve by filename, so it survives model and tool changes. An earlier semantic search index was built, measured, and retired once flat-file navigation proved sufficient.</span></div>
+      <div class="cap"><span class="ck">okf indexes</span><span class="cd">Every managed folder carries an <b>index.md</b> describing its contents, so an agent loads cheap folder metadata before opening files (Google's <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md" target="_blank" rel="noopener">Open Knowledge Format</a> pattern). Navigation cost drops before a single document is read.</span></div>
       <div class="cap"><span class="ck">deterministic recall</span><span class="cd">Wiki lookups run through a scoring retriever (index lines + filename tokens, no model in the loop) that opens only the top page. About <b>60% cheaper and 55% faster</b> than letting the model read around.</span></div>
       <div class="cap"><span class="ck">headroom</span><span class="cd">An always-on compression proxy sits between the editor and the API, compressing conversation context in flight. Long build sessions stay affordable without changing how I work.</span></div>
       <div class="cap"><span class="ck">model routing</span><span class="cd">Two operating points, nothing in between: an everyday model for routine work, escalation to the frontier the moment a trigger fires (irreversibility, trust boundaries, ambiguous requirements). Consequence beats category.</span></div>
@@ -508,8 +657,55 @@
     </div>
   </section>
 
+  <section class="block" id="record">
+    <div class="sec-head"><h2>The build record</h2><span class="num">06</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>First commit to always-on took two weeks, and the VPS has run unattended since the day it was provisioned. The discipline that keeps that pace safe is subtraction: nothing gets built without a measured need, and anything that loses to a simpler design gets killed and written down.</p>
+        <div class="subhead">Milestones</div>
+        <div class="tl">
+          <div class="tli"><span class="d">jun 11</span><span class="w"><b>Newsletter platform ships.</b> Issue 01 lands in the public archive the same day.</span></div>
+          <div class="tli"><span class="d">jun 18</span><span class="w"><b>Core + research wiki initialized</b>; the 15-minute sync loop goes live across machines.</span></div>
+          <div class="tli"><span class="d">jun 24</span><span class="w"><b>VPS agent stack live</b>: morning brief, capture, fenced researcher. Always on from day one.</span></div>
+          <div class="tli"><span class="d">jun 27</span><span class="w"><b>Egress enforcement deployed</b>: per-container firewall rules, reapplied at every boot.</span></div>
+          <div class="tli"><span class="d">jul 04</span><span class="w"><b>Capture pipeline v2</b>: any link from Telegram classifies and routes itself, on whichever machine is on.</span></div>
+          <div class="tli"><span class="d">jul 06</span><span class="w"><b>Attack surface pruned</b>: bundled agent skills cut 80 to 8, database backups pulled off-VPS.</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="subhead" style="padding-top:2px">Built, measured, killed</div>
+        <div class="caps">
+          <div class="cap"><span class="ck">semantic index</span><span class="cd">I built a full embedding index over the wiki, measured it against flat-file navigation, and <b>mothballed it</b>. The deterministic retriever above beat it on cost and speed.</span></div>
+          <div class="cap"><span class="ck">memory frameworks</span><span class="cd"><a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener">Vector memory layers</a> stay <b>skipped until a written tripwire trips</b> (recall misses, index bloat). Lean flat files keep winning the measurement.</span></div>
+          <div class="cap"><span class="ck">multiplexed gateway</span><span class="cd">I <b>rejected</b> one gateway serving every bot. Each profile runs its own supervised gateway, so a crash or compromise stays contained.</span></div>
+          <div class="cap"><span class="ck">cloud research runs</span><span class="cd">Hosted runners <b>can't reach half the sources</b>, so research automation stays local by policy instead of pretending the cloud version works.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="gateway">
+    <div class="sec-head"><h2>ai-gateway</h2><span class="num">07</span></div>
+    <p class="sec-sub meta"><span class="lbl">reusable infrastructure &middot; build once, use many</span></p>
+    <div class="sec-body">
+      <div class="prose">
+        <p>A standalone browser tool can't hold an API key: anyone can read it in DevTools. The fix is one small <a href="https://workers.cloudflare.com/" target="_blank" rel="noopener">Cloudflare Worker</a> that fronts the Anthropic API for every static, no-backend front-end I build. The page POSTs to the gateway; the gateway holds the key server-side and forwards the call. A new tool is one config entry, and no key ever ships to a browser.</p>
+        <p>The endpoint is public, so the design assumes protection, not secrecy: four stacked guardrails cap the worst case at a known ceiling.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tr><th>layer</th><th>what it caps</th></tr>
+          <tr><td class="k">1 &middot; spend cap</td><td>a hard monthly limit at the provider; the backstop for everything below</td></tr>
+          <tr><td class="k">2 &middot; rate limit</td><td>per-IP daily budget, so one abuser can't drain the month</td></tr>
+          <tr><td class="k">3 &middot; allowlist</td><td>cheap models + capped tokens per project; expensive calls are impossible</td></tr>
+          <tr><td class="k">4 &middot; origin + token</td><td>rotatable client token and origin check; a soft gate, not a vault</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="starter">
-    <div class="sec-head"><h2>Build your own</h2><span class="num">06</span></div>
+    <div class="sec-head"><h2>Build your own</h2><span class="num">08</span></div>
     <div class="sec-body">
       <div class="prose">
         <p>I distilled the whole build into a starter kit: the build order (seven steps, each buying a specific capability), a phased VPS setup runbook with a security checklist, de-personalized templates for the context files, a secrets-101 guide, and copy-paste prompts that point your own Claude Code at each step.</p>
@@ -567,6 +763,15 @@
   }
   window.addEventListener('hashchange',routeView);
   routeView();
+
+  var jumpSmooth=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  document.querySelectorAll('.jumpnav a').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.getElementById(a.getAttribute('data-jump'));
+      if(t)t.scrollIntoView({behavior:jumpSmooth,block:'start'});
+    });
+  });
 
   document.addEventListener('keydown',function(e){
     if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
