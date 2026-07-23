@@ -1,7 +1,7 @@
 # portfolio — STATUS
 
-**State:** v4 built locally (2026-07-23), NOT yet committed — Will reviews, then a commit publishes
-via auto-sync. Site live at <https://projectsofwill.github.io/> (user site, serves `index.html`
+**State:** v4 committed (2026-07-23, `02901d3`); auto-sync pushes and Pages serves it within
+~15 min. Site live at <https://projectsofwill.github.io/> (user site, serves `index.html`
 from main). Marked `noindex` while iterating.
 
 ## v4 refresh pass (2026-07-23) — AI page catch-up, 07-07 → 07-23
