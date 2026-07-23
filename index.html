@@ -896,6 +896,7 @@
   var views={home:document.getElementById('view-home'),projects:document.getElementById('view-projects'),ai:document.getElementById('view-ai')};
   function routeView(){
     var h=location.hash.replace('#/','')||'home';
+    if(h==='revops')h='projects';
     if(!views[h])h='home';
     for(var k in views)views[k].hidden=(k!==h);
     document.querySelectorAll('[data-nav]').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-nav')===h);});
