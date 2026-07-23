@@ -186,6 +186,19 @@
 
   .flow-row.n3{grid-template-columns:repeat(2,minmax(0,1fr) auto) minmax(0,1fr)}
   @media(max-width:900px){.flow-row.n3{grid-template-columns:1fr}}
+  .flow-row.n4{grid-template-columns:repeat(3,minmax(0,1fr) auto) minmax(0,1fr)}
+  @media(max-width:900px){.flow-row.n4{grid-template-columns:1fr}}
+
+  /* ---------- memory store grid ---------- */
+  .memgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+  @media(max-width:900px){.memgrid{grid-template-columns:1fr}}
+
+  /* ---------- phone-shot carousel ---------- */
+  .shots{display:flex;gap:16px;overflow-x:auto;margin-top:28px;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .shots .shot{flex:0 0 auto;scroll-snap-align:start}
+  .shots img{display:block;height:460px;width:auto;border:1px solid var(--border);border-radius:16px;background:var(--card)}
+  .shots .sc{display:block;margin-top:8px;font-family:'Plex Mono',monospace;font-size:11px;color:var(--muted)}
+  @media(max-width:720px){.shots img{height:400px}}
 
   /* ---------- per-profile fences ---------- */
   .fence{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;border-top:1px solid var(--border-soft);padding:12px 0 4px;font-family:'Plex Mono',monospace;font-size:11px;line-height:1.6;color:var(--text-2)}
@@ -274,7 +287,7 @@
 <header>
   <div class="meta"><a href="#/" style="border-bottom:none;color:var(--text)">William Liu</a><br><span class="lbl">RevOps operator · AI builder · New York</span></div>
   <nav class="navlinks" aria-label="pages">
-    <a href="#/revops" data-nav="revops">RevOps <span class="key">( 1 )</span></a>
+    <a href="#/projects" data-nav="projects">Projects <span class="key">( 1 )</span></a>
     <a href="#/ai" data-nav="ai">AI Systems <span class="key">( 2 )</span></a>
     <button class="modebtn" id="themeBtn" type="button">Light mode <span class="key">( L )</span></button>
   </nav>
@@ -285,7 +298,7 @@
   <div class="thesis">
     <h1>Narrow, auditable, explainable beats broad, autonomous, <em>opaque</em>.</h1>
     <div class="side">
-      <p>I build AI systems for revenue operations, and I run my own life on the same architecture. The design rule never changes: anything you need to trust is deterministic, and AI sits at the edges where it genuinely helps. It structures messy notes, writes explanations, drafts documents. It never makes the decision.</p>
+      <p>I build AI systems for revenue operations, and I run my own life on the same architecture. The design rule never changes: anything I need to trust is deterministic, and AI sits at the edges where it genuinely helps. It structures messy notes, writes explanations, drafts documents. It never makes the decision.</p>
       <p>8+ years in RevOps and sales strategy across Postscript, Ramp, Multiplier, and Zendesk. SQL, Salesforce, Looker, and now the Claude API and n8n.</p>
       <div class="legend">
         <span><span class="sw det"></span>deterministic core</span>
@@ -295,9 +308,9 @@
   </div>
 
   <div class="index-head meta"><span class="lbl">Index</span></div>
-  <a class="row" href="#/revops">
-    <span class="rt">RevOps Systems</span>
-    <span class="meta">Deal Desk Engine · deal-brain</span>
+  <a class="row" href="#/projects">
+    <span class="rt">Projects</span>
+    <span class="meta">Deal Desk Engine · deal-brain · Mandarin study app</span>
     <span class="status"><span class="chip live">live demo</span></span>
     <span class="num">01</span>
   </a>
@@ -310,10 +323,10 @@
 </main>
 
 <!-- ================= REVOPS ================= -->
-<main id="view-revops" hidden>
+<main id="view-projects" hidden>
   <div class="pagehead">
-    <h1>RevOps Systems</h1>
-    <p>Two builds, one message: the decision layer is deterministic SQL and arithmetic anyone can audit; the model earns its keep on the messy, language-heavy edges. Both run on provably synthetic data.</p>
+    <h1>Projects</h1>
+    <p>The RevOps builds follow one rule: the decision layer is deterministic SQL and arithmetic anyone can audit, and the model earns its keep on the messy, language-heavy edges. Everything runs on provably synthetic data. The third project is personal: the same build discipline pointed at learning Mandarin.</p>
   </div>
 
   <section class="block" id="deal-desk" style="border-top:none">
@@ -322,7 +335,7 @@
     <div class="sec-body">
       <div class="prose">
         <p>I built a deal desk tool that takes a deal, scores it on margin and discount discipline, and either auto-approves it, routes it to the right approver, or rejects it. The decisions are deterministic, so you can trust and audit them. <span class="ai-note">AI structures messy deal notes, writes the plain-English explanation, and drafts the term sheet.</span> It never makes the decision.</p>
-        <p>The sharpest beat: a deal at <b>78% margin still routes</b>, because one line was discounted 35% past a per-line floor. Whether a deal makes money and whether a rep is holding the line on price are two different questions. The tool checks both, separately.</p>
+        <p>The example I lead with: a deal at <b>78% margin still routes</b>, because one line was discounted 35% past a per-line floor. Whether a deal makes money and whether a rep is holding the line on price are two different questions, so the tool checks both, separately.</p>
         <p>Deals route by <b>reason</b>, not one yes-or-no: Net-90 terms go to Finance, a termination-for-convenience clause goes to Legal. Every decision shows its work (inputs, math, rule fired) and every threshold is config, not code, so RevOps edits a number when policy changes and the logic never moves. The decision engine calls no model, so the expensive 80% is free; three AI edges cost pennies per deal.</p>
         <p class="meta" style="margin-top:18px"><span class="lbl">Built as an interview case study. Runs entirely on synthetic pricing data.</span></p>
         <div class="links-line">
@@ -364,12 +377,12 @@
 
   <section class="block" id="deal-brain">
     <div class="sec-head"><h2>deal-brain</h2><span class="num">02</span></div>
-    <div class="meta sec-sub"><span class="chip build">in build · architecture locked</span></div>
+    <div class="meta sec-sub"><span class="chip build">in build · first agent shipped and measured</span></div>
     <div class="sec-body">
       <div class="prose">
-        <p>RevOps teams lose deals twice: once when the deal dies, again when the reason dies with it. Closed-lost dropdowns say "price" while the call transcripts say "no champion." The answer to "what's really happening on this deal?" is spread across CRM fields, field history, transcripts, emails, and Slack. <b>8 calls, 1 question, 0 shared context.</b></p>
+        <p>RevOps teams lose deals twice: once when the deal dies, again when the reason dies with it. Closed-lost dropdowns say "price" while the call transcripts say "no champion." The answer to "what's really happening on this deal?" is spread across CRM fields, field history, transcripts, emails, and Slack. <b>Eight places to look, one question, no shared context.</b></p>
         <p>deal-brain does the plumbing once: everything syncs into one pre-joined Postgres store with a SFDC-shaped schema (including field history, the thing forecast analytics actually runs on), one <b>get_deal_context(deal)</b> interface, and three agents on top. A 2 to 3 hour weekly ritual becomes a 5-minute Slack brief.</p>
-        <p>All data is generated, seeded, and committed, with a held-out ground-truth manifest, so accuracy gets <b>measured and published, including the misses</b>. Zero real deal data, ever.</p>
+        <p>Every deal is synthetic, written by a seeded script that records the intended truth as it goes: this deal has a champion, that one skipped legal review. That answer key makes accuracy <b>measurable instead of claimed</b>. The first agent has been graded against it: within one level of the truth 99% of the time, overall agreement at the level you'd expect between two trained humans, about two dollars to score 100 deals. The one pillar it reads poorly is named in the repo, not buried in an average. Zero real deal data, ever.</p>
         <div class="links-line">
           <a href="https://github.com/projectsofwill" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
@@ -379,7 +392,7 @@
           <tr><th>agent</th><th>deterministic core</th><th style="color:var(--accent)">AI edge</th></tr>
           <tr>
             <td class="k">meddpicc</td>
-            <td>per-pillar 0/1/2 rubric, coverage &Sigma;/16, no evidence quote caps the score at 1</td>
+            <td>scores all 8 pillars 0/1/2 from a config-file rubric; no verbatim evidence quote means the score caps at 1</td>
             <td><span class="ai">extracts evidence quotes from transcripts and email</span></td>
           </tr>
           <tr>
@@ -400,18 +413,57 @@
       </div>
     </div>
   </section>
+
+  <section class="block" id="mandarin">
+    <div class="sec-head"><h2>Mandarin study app</h2><span class="num">03</span></div>
+    <div class="meta sec-sub"><span class="chip live">on my phone via TestFlight</span></div>
+    <div class="sec-body">
+      <div class="prose">
+        <p>A personal, offline iOS study app for learning Mandarin. It replaced a three-app loop (Duolingo, a course site, a flashcard tool) with one integrated daily ritual: learn a character through a mnemonic movie-scene method, drill it with spaced repetition, then read it in graded stories with audio. Dark-first, hanzi as the hero, tone-colored pinyin, one primary action per screen.</p>
+        <p>The curriculum ships inside the app as a bundled SQLite database built by a Python pipeline: 88 lessons, an HSK 3.0 benchmark mapping, generated audio packs at normal and slow speed, and synthesized pinyin where the source drops it (347 sentences). <b>No network dependency at runtime</b>; the whole thing works in airplane mode.</p>
+        <p>It is also proof the infrastructure page compounds: the app was built in review-gated waves by the same Claude-plus-critique loop, then fixed from real device feedback the same way. It is what I study on now.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tr><th>layer</th><th>what it is</th></tr>
+          <tr><td class="k">app</td><td>Expo / React Native + TypeScript, offline-first, all content bundled</td></tr>
+          <tr><td class="k">data</td><td>Python pipeline builds one curriculum.sqlite; rebuildable byte-identical on either machine</td></tr>
+          <tr><td class="k">method</td><td>mnemonic scene method; every character gets two independently scheduled cards (recognition + recall)</td></tr>
+          <tr><td class="k">ship</td><td>EAS builds to TestFlight; simulator driven by the build system for self-testing</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="shots" aria-label="app screenshots">
+      <div class="shot">
+        <img src="data:image/webp;base64,{{SHOT1}}" alt="Today screen: daily loop with due reviews, course resume, and level progress" loading="lazy">
+        <span class="sc">the daily loop</span>
+      </div>
+      <div class="shot">
+        <img src="data:image/webp;base64,{{SHOT2}}" alt="Learn screen: five phases from characters to stories, with per-level lesson grids" loading="lazy">
+        <span class="sc">the course map</span>
+      </div>
+      <div class="shot">
+        <img src="data:image/webp;base64,{{SHOT3}}" alt="Review card: a character drilled through a personal mnemonic movie scene with audio" loading="lazy">
+        <span class="sc">a review card</span>
+      </div>
+      <div class="shot">
+        <img src="data:image/webp;base64,{{SHOT4}}" alt="Reading lesson: graded story with tone-colored pinyin, English reveal, and audio per sentence" loading="lazy">
+        <span class="sc">graded reading</span>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- ================= AI ================= -->
 <main id="view-ai" hidden>
   <div class="pagehead">
     <h1>Claude OS + Hermes</h1>
-    <p>A personal second brain plus an always-on agent stack: a desktop, a laptop, and a VPS, syncing through GitHub as the single hub, reachable from my phone over Telegram. It is not a demo. It runs my mornings, my research, my food, my training, and a weekly newsletter, every day, unattended.</p>
+    <p>A personal second brain plus an always-on agent stack: a desktop, a laptop, and a VPS, syncing through GitHub as the single hub, reachable from my phone over Telegram. I live on it. It runs my mornings, my research, my food, my training, and a weekly newsletter, unattended.</p>
     <div class="stats">
       <span class="s"><b>8</b>newsletter issues shipped unattended</span>
-      <span class="s"><b>330+</b>wiki pages, cross-linked</span>
+      <span class="s"><b>420</b>wiki pages, cross-linked</span>
       <span class="s"><b>5+</b>scoped agent profiles</span>
-      <span class="s"><b>16</b>skills synced across machines</span>
+      <span class="s"><b>20</b>skills synced across machines</span>
       <span class="s"><b>15 min</b>cross-device sync interval</span>
     </div>
     <nav class="jumpnav" aria-label="page sections">
@@ -419,19 +471,20 @@
       <a data-jump="capabilities" href="#/ai"><span class="jn">02</span> agents</a>
       <a data-jump="ingest" href="#/ai"><span class="jn">03</span> ingest</a>
       <a data-jump="memory" href="#/ai"><span class="jn">04</span> memory</a>
-      <a data-jump="security" href="#/ai"><span class="jn">05</span> security</a>
-      <a data-jump="record" href="#/ai"><span class="jn">06</span> build record</a>
-      <a data-jump="gateway" href="#/ai"><span class="jn">07</span> gateway</a>
-      <a data-jump="starter" href="#/ai"><span class="jn">08</span> starter</a>
+      <a data-jump="optimizations" href="#/ai"><span class="jn">05</span> optimizations</a>
+      <a data-jump="security" href="#/ai"><span class="jn">06</span> security</a>
+      <a data-jump="record" href="#/ai"><span class="jn">07</span> build record</a>
+      <a data-jump="gateway" href="#/ai"><span class="jn">08</span> gateway</a>
+      <a data-jump="starter" href="#/ai"><span class="jn">09</span> starter</a>
     </nav>
   </div>
 
-  <section class="block" id="architecture"><section class="block" id="architecture">
+  <section class="block" id="architecture">
     <div class="sec-head"><h2>Cross-platform architecture</h2><span class="num">01</span></div>
     <div class="sec-body single">
       <div class="prose">
         <p>Content never travels machine-to-server directly. Everything meets at GitHub; live queries take a separate path over a private VPN (<a href="https://tailscale.com/" target="_blank" rel="noopener">Tailscale</a>). Data is tiered by sensitivity, and the tiers are walls, not conventions.</p>
-        <p><b>Multi-model by design.</b> Claude builds. Every high-consequence change is critiqued by a second model family (Codex) before it ships, because blind spots are correlated: the verifier must be independent of the source. Gemini is the third engine, used for 1M-context whole-vault reads and as a tiebreaker when the first two disagree. The VPS agents run their own model with an off-provider fallback. No single vendor is a point of failure, or an unchecked authority.</p>
+        <p><b>Multi-model by design.</b> Claude builds. Every high-consequence change is critiqued by a second model family (Codex) before it ships, because blind spots are correlated: the verifier must be independent of the source. Codex also implements now: I hand it a written spec and it builds in an isolated git worktree, with the token cost of every dispatch logged. Gemini is the third engine, used for 1M-context whole-vault reads and as a tiebreaker when the first two disagree. The VPS agents run their own model family, watched by a daily liveness probe rather than a failover; the off-provider fallback existed, missed surfaces in a real outage, and got decommissioned. An alert I trust beats a fallback I don't. No vendor is an unchecked authority.</p>
       </div>
     </div>
     <div class="topo" aria-label="architecture diagram">
@@ -462,7 +515,7 @@
         <div class="fnode">
           <div class="fhead"><span class="t">build</span></div>
           <span class="ftag ai">claude</span>
-          <div class="d">writes the change, desk-side or on the VPS</div>
+          <div class="d">writes the change, or hands a spec to codex in an isolated worktree</div>
         </div>
         <div class="farr" aria-hidden="true"></div>
         <div class="fnode">
@@ -485,6 +538,7 @@
         <tr><td class="k">research wiki</td><td>my machines <b>(source of truth)</b>, VPS gets a read-only copy</td><td>external knowledge: articles, tools, patterns, verdicts</td></tr>
         <tr><td class="k">memory</td><td><b>my machines only</b>, never any server</td><td>the most sensitive facts: identity, preferences, records</td></tr>
         <tr><td class="k">alfred db</td><td>VPS Postgres, private, backed up daily</td><td>operational self-logs: meals, workouts, people, captures</td></tr>
+        <tr><td class="k">hindsight</td><td>VPS Postgres, one bank per agent, walls between them</td><td>episodic memory: what each agent did and decided, recallable across sessions</td></tr>
       </table>
     </div>
   </section>
@@ -492,11 +546,11 @@
   <section class="block" id="capabilities">
     <div class="sec-head"><h2>The agents + what they do</h2><span class="num">02</span></div>
     <div class="sec-body single"><div class="prose">
-      <p>Four groups, and only two of them are agents. Alfred and Arnold are the user-facing ones, scoped profiles on the VPS, reachable from my phone over Telegram at any hour. The Hermes stack is the machinery behind them: an orchestrator that routes and schedules, a fenced researcher, and the pipelines they feed. Claude OS is not on the VPS at all; it is the desk-side builder that constructs and maintains everything here. Profiles are narrow by design and coordinate through a shared task board, not by talking to each other. Everything listed is live, not planned, and every <b>cannot</b> below is an enforced fence.</p>
+      <p>Four groups, and only two of them are agents. Alfred and Arnold are the user-facing ones, scoped profiles on the VPS, reachable from my phone over Telegram at any hour. The Hermes stack is the machinery behind them: an orchestrator that routes and schedules, a fenced researcher, and the pipelines they feed. Claude OS is not on the VPS at all; it is the desk-side builder that constructs and maintains everything here. Profiles are narrow by design and coordinate through a shared task board and a shared memory bank, not by talking to each other. Everything listed is live, not planned, and every <b>cannot</b> below is an enforced fence.</p>
     </div></div>
     <div style="margin-top:20px">
       <details class="capgroup" open>
-        <summary><span class="gt">Alfred</span><span class="meta">the executive assistant · capture and organize</span><span class="ind"></span></summary>
+        <summary><span class="gt">Alfred</span><span class="meta">the executive assistant · own bot and gateway</span><span class="ind"></span></summary>
         <div class="caps">
           <div class="cap"><span class="ck">morning brief</span><span class="cd">A daily 8am Telegram brief: today and tomorrow's calendar, <b>read-only inbox triage</b> (flags urgent, never sends), research highlights, one nudge.</span></div>
           <div class="cap"><span class="ck">calendar write</span><span class="cd">Creates and updates events behind a <b>two-phase confirm gate</b>. OAuth is scoped to the minimum: read-only mail, events-only calendar.</span></div>
@@ -521,7 +575,7 @@
           <div class="cap"><span class="ck">link capture</span><span class="cd">Send any link over Telegram and it lands organized: recipes and restaurants extract into the database, articles route to the research wiki. Failure is honest; it never fakes a "saved."</span></div>
           <div class="cap"><span class="ck">instagram sync</span><span class="cd">Save a post into a collection (NYC, Travel, Food, AI) and a twice-daily job pulls it into the same pipeline. <span class="ai">Thin captions fall back to reading the images</span>, so one ranked-list carousel can yield ten venues.</span></div>
           <div class="cap"><span class="ck">newsletter</span><span class="cd">A weekly RevOps + GTM engineering issue, <span class="ai">drafted by the stack from the week's research</span>, auto-published every Sunday to a <a href="https://projectsofwill.github.io/newsletter-archive" target="_blank" rel="noopener">public archive</a> and emailed.</span></div>
-          <div class="cap"><span class="ck">llm fallback</span><span class="cd">If the primary model's quota exhausts, profiles fail over to a backup provider with a Telegram alert. Alfred is excluded by design: inbox and calendar PII never routes off-provider.</span></div>
+          <div class="cap"><span class="ck">liveness watchdog</span><span class="cd">A daily silent-unless-dead probe checks model auth on <b>every surface</b> and alerts by surface, not by profile. It replaced an off-provider failover that missed surfaces in a real outage: the fallback got decommissioned, the alert stayed.</span></div>
           <div class="fence"><span class="fp">orchestrator</span><span class="fy">can</span><span>route, dispatch, capture</span><span class="fn">cannot</span><span class="nv">read mail, write calendar</span></div>
           <div class="fence"><span class="fp">researcher</span><span class="fy">can</span><span>write inert markdown</span><span class="fn">cannot</span><span class="nv">use tools, touch data</span></div>
         </div>
@@ -530,7 +584,8 @@
         <summary><span class="gt">Claude OS</span><span class="meta">the desk-side builder · PC + Mac</span><span class="ind"></span></summary>
         <div class="caps">
           <div class="cap"><span class="ck">build + maintain</span><span class="cd">Builds and maintains the whole system: code, automations, skills, configs. High-consequence changes pass the <b>second-model critique gate</b> before they ship.</span></div>
-          <div class="cap"><span class="ck">skills</span><span class="cd">16 slash-command workflows synced to every machine (session continuity, ingest, audits, scaffolding). Detail in the optimizations section below.</span></div>
+          <div class="cap"><span class="ck">skills</span><span class="cd">20 slash-command workflows synced to every machine (session continuity, ingest, audits, scaffolding). Detail in the optimizations section below.</span></div>
+          <div class="cap"><span class="ck">second harness</span><span class="cd">Implementation can be dispatched to Codex as a written spec: it builds in an <b>isolated git worktree</b>, never the live checkout, and every dispatch logs its measured token cost.</span></div>
           <div class="cap"><span class="ck">memory</span><span class="cd">Durable facts persist across sessions in flat files with a loaded index; live status stays in per-project dashboards so the always-on context stays lean.</span></div>
           <div class="fence"><span class="fy">can</span><span>build, refactor, dispatch critiques</span><span class="fn">cannot</span><span class="nv">push or rewrite history (hooks deny it)</span></div>
         </div>
@@ -550,6 +605,7 @@
           <span class="ci"><b>2&times;</b> instagram saves pulled into the pipeline</span>
           <span class="ci"><b>1&times;</b> <span class="ai">researcher</span> sweeps Reddit, YouTube, RSS, HN, GitHub</span>
           <span class="ci"><b>1&times;</b> postgres backup</span>
+          <span class="ci"><b>1&times;</b> model-auth liveness probe, silent unless something is dead</span>
         </div>
       </div>
       <div class="cad-lane"><span class="cl">weekly</span>
@@ -565,7 +621,7 @@
     <div class="sec-body single">
       <div class="prose">
         <p>The capture rule: <b>zero-structure input, automated organization</b>. Nothing asks me to file, tag, or format at capture time. I send a link, save a post, or clip a page; the pipeline does the rest.</p>
-        <p>Untrusted web content is treated as hostile until proven otherwise. The autonomous researcher is <b>tool-less</b>: it can only write inert markdown. <span class="ai-note">A dual-LLM firewall sanitizes and classifies every capture</span>, a deterministic regex scan quarantines anything carrying injection markers before a model ever reads it, and a human gate sits before the wiki. Prompt injection is assumed, not hoped away.</p>
+        <p>Untrusted web content is treated as hostile until proven otherwise. The autonomous researcher is <b>tool-less</b>: it can only write inert markdown. <span class="ai-note">A dual-LLM firewall sanitizes and classifies every capture</span>, a deterministic regex scan quarantines anything carrying injection markers, and a human gate sits before the wiki. I assume prompt injection will be attempted and design for it.</p>
         <p>The wiki itself is <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Karpathy-style</a>: flat markdown, no RAG, no embeddings, pages organized by function (sources, patterns, concepts, guides) with per-domain verdict pages that record what to adopt and what to skip.</p>
       </div>
     </div>
@@ -618,22 +674,88 @@
   </section>
 
   <section class="block" id="memory">
-    <div class="sec-head"><h2>Memory + optimizations</h2><span class="num">04</span></div>
+    <div class="sec-head"><h2>Memory</h2><span class="num">04</span></div>
     <div class="sec-body single"><div class="prose">
-      <p>The unglamorous layer that keeps the system cheap, legible, and durable. Most of it is subtraction: no vector database, no embeddings, no framework, flat files an agent (or I) can read directly.</p>
+      <p>Four stores, one rule: <b>truth lives in files, and sensitivity decides where a store runs</b>. Anything a model writes automatically is a disposable lens over the files, never the source of truth; the wipe-and-rebuild path is tested, not assumed.</p>
+      <p><b>The episodic layer is <a href="https://github.com/vectorize-io/hindsight" target="_blank" rel="noopener">Hindsight</a></b>, an open-source memory service self-hosted next to the same Postgres. It exists for the one job files lose: agents on three machines doing autonomous work with no memory of each other. <span class="ai-note">At session end it extracts typed facts from the conversation</span> (what happened, what was decided, opinions with a confidence score), stores them time-aware so stale facts retire on their own, and recalls by meaning, keyword, and recency together. The payoff is the briefing: every session opens with what the other agents did since I was last there. The desk builds something, the phone knows; Alfred decides something, the next desk session starts already caught up.</p>
     </div></div>
-    <div class="caps">
-      <div class="cap"><span class="ck">llm wiki</span><span class="cd">The second brain is a <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Karpathy-style</a> wiki: <b>flat markdown, no RAG, no embeddings</b>, links resolve by filename, so it survives model and tool changes. An earlier semantic search index was built, measured, and retired once flat-file navigation proved sufficient.</span></div>
-      <div class="cap"><span class="ck">okf indexes</span><span class="cd">Every managed folder carries an <b>index.md</b> describing its contents, so an agent loads cheap folder metadata before opening files (Google's <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md" target="_blank" rel="noopener">Open Knowledge Format</a> pattern). Navigation cost drops before a single document is read.</span></div>
+    <div class="memgrid" aria-label="memory stores">
+      <div class="fnode">
+        <div class="fhead"><span class="t">flat memory</span></div>
+        <span class="ftag">files &middot; desk only</span>
+        <div class="d">identity, preferences, durable personal facts<br>written and read by desk sessions</div>
+        <div class="fx">wall: never leaves my machines</div>
+      </div>
+      <div class="fnode">
+        <div class="fhead"><span class="t">research wiki</span></div>
+        <span class="ftag">files &middot; source of truth</span>
+        <div class="d">external knowledge + verdicts<br>written through the human-gated ingest pipeline<br>read everywhere; the VPS copy is read-only</div>
+        <div class="fx">wall: nothing personal in it</div>
+      </div>
+      <div class="fnode ai">
+        <div class="fhead"><span class="t">hindsight</span></div>
+        <span class="ftag ai">service &middot; episodic</span>
+        <div class="d">what each agent did and decided<br>auto-extracted, typed, time-aware<br>desk + orchestrator share one bank; the phone reads it</div>
+        <div class="fx">wall: personal-data agents get isolated banks</div>
+      </div>
+      <div class="fnode">
+        <div class="fhead"><span class="t">alfred db</span></div>
+        <span class="ftag">postgres &middot; private</span>
+        <div class="d">meals, workouts, people, captures<br>written by alfred and arnold only</div>
+        <div class="fx">wall: names masked, backed up off-VPS</div>
+      </div>
+    </div>
+    <div class="subhead">How a memory gets made</div>
+    <div class="flow" style="margin-top:6px">
+      <div class="flow-row n4">
+        <div class="fnode">
+          <div class="fhead"><span class="t">session ends</span><span class="no">1</span></div>
+          <span class="ftag">any surface</span>
+          <div class="d">a desk build session, or an agent conversation on the VPS</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode ai">
+          <div class="fhead"><span class="t">distill + scrub</span><span class="no">2</span></div>
+          <span class="ftag ai">llm pass</span>
+          <div class="d">typed facts extracted; a deterministic secret scan runs before anything is stored</div>
+          <div class="fx">↳ fenced topics never leave the machine</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">bank</span><span class="no">3</span></div>
+          <span class="ftag">typed &middot; time-aware</span>
+          <div class="d">world, experience, and opinion facts; stale ones expire on their own</div>
+        </div>
+        <div class="farr" aria-hidden="true"></div>
+        <div class="fnode">
+          <div class="fhead"><span class="t">next session</span><span class="no">4</span></div>
+          <span class="ftag ok">briefed</span>
+          <div class="d">opens with what the other agents did since I was last here, on any machine</div>
+        </div>
+      </div>
+    </div>
+    <div class="caps" style="margin-top:26px">
+      <div class="cap"><span class="ck">llm wiki</span><span class="cd">The knowledge store is a <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Karpathy-style</a> wiki: <b>flat markdown, no RAG, no embeddings</b>, links resolve by filename, so it survives model and tool changes. An earlier semantic search index was built, measured, and retired once flat-file navigation proved sufficient.</span></div>
       <div class="cap"><span class="ck">deterministic recall</span><span class="cd">Wiki lookups run through a scoring retriever (index lines + filename tokens, no model in the loop) that opens only the top page. About <b>60% cheaper and 55% faster</b> than letting the model read around.</span></div>
-      <div class="cap"><span class="ck">headroom</span><span class="cd">An always-on compression proxy sits between the editor and the API, compressing conversation context in flight. Long build sessions stay affordable without changing how I work.</span></div>
-      <div class="cap"><span class="ck">model routing</span><span class="cd">Two operating points, nothing in between: an everyday model for routine work, escalation to the frontier the moment a trigger fires (irreversibility, trust boundaries, ambiguous requirements). Consequence beats category.</span></div>
-      <div class="cap"><span class="ck">review dispatch</span><span class="cd">Second-model critiques run in an isolated subagent, so the bulky review transcript is billed once instead of riding along in every later turn (about 18% measured saving).</span></div>
+      <div class="cap"><span class="ck">injection defense</span><span class="cd">The researcher, which ingests hostile web content, gets <b>no recall at all</b>: giving the untrusted-input surface access to shared memory is an exfiltration vector. And any memory derived from external content carries a provenance tag and surfaces as a <b>claim with a source, never an instruction</b>.</span></div>
       <div class="cap"><span class="ck">continuity</span><span class="cd">Every session ends in a written handoff and starts warm from it; an append-only session log is the continuity record. A cold start reads one file, not a history.</span></div>
     </div>
-    <div class="subhead">Skills I built (16, synced to every machine)</div>
+  </section>
+
+  <section class="block" id="optimizations">
+    <div class="sec-head"><h2>Optimizations</h2><span class="num">05</span></div>
+    <div class="sec-body single"><div class="prose">
+      <p>This is the unglamorous layer that keeps the system cheap and legible. Most of it is subtraction: fewer tokens loaded, fewer files opened, and the expensive model only where consequence demands it.</p>
+    </div></div>
+    <div class="caps">
+      <div class="cap"><span class="ck">okf indexes</span><span class="cd">Every managed folder carries an <b>index.md</b> describing its contents, so an agent loads cheap folder metadata before opening files (Google's <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md" target="_blank" rel="noopener">Open Knowledge Format</a> pattern). Navigation cost drops before a single document is read.</span></div>
+      <div class="cap"><span class="ck">model routing</span><span class="cd">Two operating points, nothing in between: an everyday model for routine work, escalation to the frontier the moment a trigger fires (irreversibility, trust boundaries, ambiguous requirements). Consequence beats category.</span></div>
+      <div class="cap"><span class="ck">review dispatch</span><span class="cd">Second-model critiques run in an isolated subagent, so the bulky review transcript is billed once instead of riding along in every later turn (about 18% measured saving).</span></div>
+    </div>
+    <div class="subhead">Skills I built (20, synced to every machine)</div>
     <div class="caps">
       <div class="cap"><span class="ck">/resume · /wrap-up</span><span class="cd">Session continuity as a ritual: close a session into a handoff, open the next one warm from it.</span></div>
+      <div class="cap"><span class="ck">/spinoff · /handback</span><span class="cd">Parallel work as a ritual: hand a scoped sub-task to a second session warm, then close it back into the primary with a paste-ready summary.</span></div>
       <div class="cap"><span class="ck">/ingest</span><span class="cd">Capture any URL or clipped source into the wiki through the full pipeline: dedup, safety scan, source page, cross-links, verdicts.</span></div>
       <div class="cap"><span class="ck">/assess</span><span class="cd">Evaluate an external tool or idea against the existing system and return a verdict: adopt now, already have it, skip, or roadmap it. Gated on measured need.</span></div>
       <div class="cap"><span class="ck">/os-hygiene · /os-healthcheck</span><span class="cd">The audits: is the always-loaded context lean and single-sourced, and is everything actually still running. The healthcheck labels what each check does not prove.</span></div>
@@ -644,7 +766,7 @@
   </section>
 
   <section class="block" id="security">
-    <div class="sec-head"><h2>Security posture</h2><span class="num">05</span></div>
+    <div class="sec-head"><h2>Security posture</h2><span class="num">06</span></div>
     <div class="sec-body single"><div class="prose">
       <p>The operating principle: capabilities are <b>built but fenced</b>. Every action sits behind an approval gate, a live flag, or a scoped token until I deliberately open it.</p>
     </div></div>
@@ -652,40 +774,53 @@
       <div class="cap"><span class="ck">exposure</span><span class="cd">The VPS runs non-root; services publish on the private VPN address only. The sole public listener is key-only SSH. A Docker egress allowlist blocks abuse ports.</span></div>
       <div class="cap"><span class="ck">secrets</span><span class="cd">Keys live only in gitignored env files, isolated per component in a container the agents cannot read, with a written rotation runbook.</span></div>
       <div class="cap"><span class="ck">trust gates</span><span class="cd">A second, independent model family critiques every hard-to-reverse change before it ships. Calendar writes take a two-phase confirm. Hooks block destructive git operations.</span></div>
-      <div class="cap"><span class="ck">pii</span><span class="cd">The most sensitive tier never leaves the laptops. People's names are masked in the database. The EA is excluded from any fallback provider.</span></div>
+      <div class="cap"><span class="ck">pii</span><span class="cd">The most sensitive tier never leaves the laptops. People's names are masked in the database. Agents holding personal data write to their own isolated memory banks, and no fallback provider exists for PII to leak to.</span></div>
       <div class="cap"><span class="ck">untrusted input</span><span class="cd">Web content is fenced by the ingest pipeline above: tool-less researcher, dual-LLM firewall, deterministic quarantine, human gate.</span></div>
     </div>
   </section>
 
   <section class="block" id="record">
-    <div class="sec-head"><h2>The build record</h2><span class="num">06</span></div>
+    <div class="sec-head"><h2>The build record</h2><span class="num">07</span></div>
     <div class="sec-body">
       <div class="prose">
-        <p>First commit to always-on took two weeks, and the VPS has run unattended since the day it was provisioned. The discipline that keeps that pace safe is subtraction: nothing gets built without a measured need, and anything that loses to a simpler design gets killed and written down.</p>
+        <p>First commit to always-on took two weeks, and the VPS has run unattended since the day it was provisioned. The discipline that keeps that pace safe is subtraction: nothing gets built without a measured need, what loses a measurement gets killed, and the kills, the ideas rejected on paper, and the one that later earned its way in are all written down.</p>
         <div class="subhead">Milestones</div>
         <div class="tl">
           <div class="tli"><span class="d">jun 11</span><span class="w"><b>Newsletter platform ships.</b> Issue 01 lands in the public archive the same day.</span></div>
           <div class="tli"><span class="d">jun 18</span><span class="w"><b>Core + research wiki initialized</b>; the 15-minute sync loop goes live across machines.</span></div>
           <div class="tli"><span class="d">jun 24</span><span class="w"><b>VPS agent stack live</b>: morning brief, capture, fenced researcher. Always on from day one.</span></div>
+          <div class="tli"><span class="d">jun 27</span><span class="w"><b>Both user-facing agents complete</b>: Alfred writes my calendar behind a confirm gate, Arnold coaches from a rotation gated by Oura readiness.</span></div>
           <div class="tli"><span class="d">jun 27</span><span class="w"><b>Egress enforcement deployed</b>: per-container firewall rules, reapplied at every boot.</span></div>
           <div class="tli"><span class="d">jul 04</span><span class="w"><b>Capture pipeline v2</b>: any link from Telegram classifies and routes itself, on whichever machine is on.</span></div>
           <div class="tli"><span class="d">jul 06</span><span class="w"><b>Attack surface pruned</b>: bundled agent skills cut 80 to 8, database backups pulled off-VPS.</span></div>
+          <div class="tli"><span class="d">jul 14</span><span class="w"><b>Hindsight live</b>: desktop sessions and VPS agents write one episodic memory; personal-data agents split into isolated banks the next day.</span></div>
+          <div class="tli"><span class="d">jul 22</span><span class="w"><b>Second harness online</b>: implementation dispatched to Codex in isolated worktrees, token cost logged per dispatch.</span></div>
+          <div class="tli"><span class="d">jul 23</span><span class="w"><b>The loop closes</b>: the phone can ask, read-only, what any desk session did. Every surface now shares one memory.</span></div>
         </div>
       </div>
       <div>
         <div class="subhead" style="padding-top:2px">Built, measured, killed</div>
         <div class="caps">
-          <div class="cap"><span class="ck">semantic index</span><span class="cd">I built a full embedding index over the wiki, measured it against flat-file navigation, and <b>mothballed it</b>. The deterministic retriever above beat it on cost and speed.</span></div>
-          <div class="cap"><span class="ck">memory frameworks</span><span class="cd"><a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener">Vector memory layers</a> stay <b>skipped until a written tripwire trips</b> (recall misses, index bloat). Lean flat files keep winning the measurement.</span></div>
-          <div class="cap"><span class="ck">multiplexed gateway</span><span class="cd">I <b>rejected</b> one gateway serving every bot. Each profile runs its own supervised gateway, so a crash or compromise stays contained.</span></div>
-          <div class="cap"><span class="ck">cloud research runs</span><span class="cd">Hosted runners <b>can't reach half the sources</b>, so research automation stays local by policy instead of pretending the cloud version works.</span></div>
+          <div class="cap"><span class="ck">semantic index</span><span class="cd">I built a full embedding index over the wiki, measured it against flat-file navigation, and <b>mothballed it</b>. The deterministic retriever beat it on cost and speed.</span></div>
+          <div class="cap"><span class="ck">compression proxy</span><span class="cd">An always-on proxy compressed conversation context in flight between editor and API. It ran for a month, got torn down for a replacement, and the replacement <b>failed its trial the same day</b>. Both are gone; sessions run direct.</span></div>
+          <div class="cap"><span class="ck">llm failover</span><span class="cd">The backup-provider failover shipped, then a real outage showed it <b>silently missing surfaces</b>. Decommissioned in favor of an alert. I'd rather be down loudly than degraded quietly.</span></div>
+          <div class="cap"><span class="ck">cloud research runs</span><span class="cd">I tried hosted runners; they <b>can't reach half the sources</b>. Research automation stays local by policy instead of pretending the cloud version works.</span></div>
+        </div>
+        <div class="subhead">Considered, never built</div>
+        <div class="caps">
+          <div class="cap"><span class="ck">multiplexed gateway</span><span class="cd">One gateway serving every bot: <b>rejected at design time</b>. Each profile runs its own supervised gateway, so a crash or compromise stays contained.</span></div>
+          <div class="cap"><span class="ck">graph retrieval</span><span class="cd">A semantic graph over the wiki lost a <b>head-to-head against flat files</b> before it ever shipped: it retrieved worse. The verdict is written down next to the idea.</span></div>
+        </div>
+        <div class="subhead">Skipped, then earned in</div>
+        <div class="caps">
+          <div class="cap"><span class="ck">hindsight</span><span class="cd"><a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener">Agent-memory services</a> stayed skipped while flat files kept winning the measurement, held out by a <b>written tripwire</b>. In July the tripwire tripped (cross-agent recall misses), and Hindsight came in scoped to that one job. The same rule that kept the category out let it in.</span></div>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block" id="gateway">
-    <div class="sec-head"><h2>ai-gateway</h2><span class="num">07</span></div>
+    <div class="sec-head"><h2>ai-gateway</h2><span class="num">08</span></div>
     <p class="sec-sub meta"><span class="lbl">reusable infrastructure &middot; build once, use many</span></p>
     <div class="sec-body">
       <div class="prose">
@@ -705,15 +840,13 @@
   </section>
 
   <section class="block" id="starter">
-    <div class="sec-head"><h2>Build your own</h2><span class="num">08</span></div>
+    <div class="sec-head"><h2>Build your own</h2><span class="num">09</span></div>
     <div class="sec-body">
       <div class="prose">
         <p>I distilled the whole build into a starter kit: the build order (seven steps, each buying a specific capability), a phased VPS setup runbook with a security checklist, de-personalized templates for the context files, a secrets-101 guide, and copy-paste prompts that point your own Claude Code at each step.</p>
         <p>It exists because three of the seven steps are where everyone gets stuck, and the kit puts a verification at the end of every risky step: prove the gitignore holds before the first push, prove the VPN wall refuses outside connections before going always-on.</p>
-        <p class="meta" style="margin-top:18px"><span class="lbl">Currently shared on request while it graduates to a public repo.</span></p>
         <div class="links-line">
-          <a href="https://github.com/projectsofwill" target="_blank" rel="noopener">GitHub ↗</a>
-          <a href="https://projectsofwill.github.io/newsletter-archive" target="_blank" rel="noopener">The weekly newsletter ↗</a>
+          <a href="https://github.com/projectsofwill/claude-os-starter" target="_blank" rel="noopener">The starter kit ↗</a>
         </div>
       </div>
       <div class="tablewrap">
@@ -753,7 +886,7 @@
   function flip(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');}
   btn.addEventListener('click',flip);
 
-  var views={home:document.getElementById('view-home'),revops:document.getElementById('view-revops'),ai:document.getElementById('view-ai')};
+  var views={home:document.getElementById('view-home'),projects:document.getElementById('view-projects'),ai:document.getElementById('view-ai')};
   function routeView(){
     var h=location.hash.replace('#/','')||'home';
     if(!views[h])h='home';
@@ -777,7 +910,7 @@
     if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
     var k=e.key.toLowerCase();
     if(k==='l')flip();
-    else if(k==='1')location.hash='#/revops';
+    else if(k==='1')location.hash='#/projects';
     else if(k==='2')location.hash='#/ai';
     else if(k==='0'||k==='h')location.hash='#/';
   });

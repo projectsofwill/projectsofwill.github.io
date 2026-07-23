@@ -6,19 +6,23 @@ import base64
 import pathlib
 
 ROOT = pathlib.Path(__file__).parent
-FONTS = [
+ASSETS = [
     ("{{GEIST}}", "fonts/geist.woff2"),
     ("{{MONO400}}", "fonts/plexmono-400.woff2"),
     ("{{MONO500}}", "fonts/plexmono-500.woff2"),
+    ("{{SHOT1}}", "shots/mandarin-1.webp"),
+    ("{{SHOT2}}", "shots/mandarin-2.webp"),
+    ("{{SHOT3}}", "shots/mandarin-3.webp"),
+    ("{{SHOT4}}", "shots/mandarin-4.webp"),
 ]
 
 
 def main():
     src = (ROOT / "portfolio-src.html").read_text(encoding="utf-8")
-    for placeholder, font_path in FONTS:
+    for placeholder, asset_path in ASSETS:
         if placeholder not in src:
             raise SystemExit(f"placeholder {placeholder} missing from source")
-        b64 = base64.b64encode((ROOT / font_path).read_bytes()).decode()
+        b64 = base64.b64encode((ROOT / asset_path).read_bytes()).decode()
         src = src.replace(placeholder, b64)
     # The source is a head+body fragment (kept that way for Artifact previews, which
     # supply their own document skeleton). For Pages, wrap it into a full document.
